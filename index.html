@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Veri Arşivi</title>
+    <title>Sistem Veri Arşivi - Dönemler</title>
     <style>
         :root {
             --neon-green: #39ff14;
@@ -40,89 +40,145 @@
             margin-bottom: 30px;
         }
 
-        h2 {
+        /* --- KLASÖR YAPISI (Açılır Kapanır Menüler) --- */
+        details {
+            margin-bottom: 15px;
+            border: 1px solid rgba(57, 255, 20, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            background: #0a0a0a;
+        }
+        
+        summary {
             font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            outline: none;
             text-shadow: 0 0 3px var(--neon-green);
-            margin-top: 30px;
+            list-style-type: "📁 "; /* Kapalı klasör ikonu */
+        }
+        
+        details[open] > summary {
+            list-style-type: "📂 "; /* Açık klasör ikonu */
+            color: #fff;
+            border-bottom: 1px dashed rgba(57, 255, 20, 0.3);
+            padding-bottom: 10px;
+            margin-bottom: 10px;
         }
 
-        /* Fotoğraf Galerisi (Grid Yapısı) */
+        summary:hover {
+            color: #fff;
+            text-shadow: 0 0 8px var(--neon-green);
+        }
+
+        .folder-content {
+            margin-left: 10px;
+            border-left: 1px dashed rgba(57, 255, 20, 0.5);
+            padding-left: 20px;
+        }
+
+        /* Alt Klasörler (Dersler) */
+        details details {
+            margin-bottom: 10px;
+            border-color: rgba(57, 255, 20, 0.15);
+            background: #050505;
+        }
+
+        /* --- FOTOĞRAF GALERİSİ --- */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .gallery-item {
-            position: relative;
-            border: 1px solid var(--neon-green);
-            padding: 5px;
-            background-color: #000;
-            transition: all 0.3s ease;
-        }
-
-        .gallery-item:hover {
-            box-shadow: 0 0 15px var(--neon-green);
-            transform: scale(1.02);
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+            margin-bottom: 15px;
         }
 
         .gallery-item img {
             width: 100%;
-            height: 150px;
+            height: 120px;
             object-fit: cover;
-            display: block;
+            border: 1px solid var(--neon-green);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
             opacity: 0.8;
-            transition: opacity 0.3s;
         }
 
-        .gallery-item:hover img {
+        .gallery-item img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 10px var(--neon-green);
             opacity: 1;
         }
 
-        /* İndirme Butonları */
-        .download-section {
-            margin-top: 40px;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .btn-download {
+        /* --- İNDİRİLEBİLİR DOSYALAR --- */
+        .file-link {
             display: inline-block;
+            color: var(--neon-green);
+            text-decoration: none;
+            margin: 5px 0;
+            padding: 5px 10px;
+            border: 1px solid transparent;
+        }
+        .file-link:before {
+            content: "[İNDİR] ";
+            font-weight: bold;
+        }
+        .file-link:hover {
             color: var(--bg-dark);
             background-color: var(--neon-green);
-            text-decoration: none;
-            padding: 12px 20px;
-            font-weight: bold;
-            text-transform: uppercase;
-            text-align: center;
-            border-radius: 3px;
-            transition: all 0.3s ease;
-            box-shadow: 0 0 10px rgba(57, 255, 20, 0.5);
-        }
-
-        .btn-download:hover {
-            background-color: var(--bg-dark);
-            color: var(--neon-green);
             border: 1px solid var(--neon-green);
-            box-shadow: 0 0 20px var(--neon-green), inset 0 0 10px var(--neon-green);
+            box-shadow: 0 0 10px var(--neon-green);
         }
 
-        /* Yanıp Sönen İmleç Efekti */
-        .cursor {
-            display: inline-block;
-            width: 10px;
-            height: 20px;
-            background-color: var(--neon-green);
-            animation: blink 1s step-end infinite;
-            vertical-align: text-bottom;
+        /* --- TAM EKRAN FOTOĞRAF (LIGHTBOX) --- */
+        #lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            align-items: center;
+            justify-content: center;
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
+        #lightbox img {
+            max-width: 85%;
+            max-height: 85%;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
         }
+
+        .lightbox-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            color: var(--neon-green);
+            border: none;
+            font-size: 4em;
+            cursor: pointer;
+            text-shadow: 0 0 10px var(--neon-green);
+            padding: 20px;
+            user-select: none;
+            transition: 0.2s;
+        }
+        .lightbox-btn:hover { color: #fff; transform: translateY(-50%) scale(1.2); }
+
+        #prevBtn { left: 20px; }
+        #nextBtn { right: 20px; }
+        
+        #closeBtn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 3em;
+            top: unset; transform: none;
+        }
+        #closeBtn:hover { transform: scale(1.2); }
+
+        /* İmleç animasyonu */
+        .cursor { display: inline-block; width: 10px; height: 20px; background-color: var(--neon-green); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -130,27 +186,116 @@
     <div class="container">
         <h1>[ SİSTEM VERİ ARŞİVİ ]<span class="cursor"></span></h1>
 
-        <h2>>_ GÖRSEL_KAYITLAR</h2>
-        <div class="gallery">
-            <!-- Fotoğraf eklemek için bu bloğu kopyalayıp çoğaltabilirsin -->
-            <div class="gallery-item">
-                <img src="foto1.jpg" alt="Veri Görseli 1">
-            </div>
-            <div class="gallery-item">
-                <img src="foto2.jpg" alt="Veri Görseli 2">
-            </div>
-            <div class="gallery-item">
-                <img src="foto3.jpg" alt="Veri Görseli 3">
-            </div>
-        </div>
+        <!-- 1. DÖNEM KLASÖRÜ ANA BAŞLIĞI -->
+        <details>
+            <summary>1. DÖNEM</summary>
+            <div class="folder-content">
+                
+                <!-- DERS 1: MATEMATİK -->
+                <details>
+                    <summary>MATEMATİK</summary>
+                    <div class="folder-content">
+                        <!-- class="lightbox-img" olan resimler tam ekran galerisine otomatik dahil olur -->
+                        <div class="gallery">
+                            <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
+                            <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
+                        </div>
+                        <a href="matematik_1_donem_ozet.zip" class="file-link" download>1. Donem Ozet .ZIP</a>
+                    </div>
+                </details>
 
-        <h2>>_ DOSYA_ÇIKTILARI</h2>
-        <div class="download-section">
-            <!-- İndirme linkleri -->
-            <a href="veri_yedek_v1.zip" class="btn-download" download>[ YEDEK_DOSYASINI_İNDİR .ZIP ]</a>
-            <a href="scriptler.7z" class="btn-download" download>[ ÇALIŞTIRILABİLİR_KOMUTLAR .7Z ]</a>
-        </div>
+                <!-- DERS 2: FİZİK -->
+                <details>
+                    <summary>FİZİK</summary>
+                    <div class="folder-content">
+                        <div class="gallery">
+                            <div class="gallery-item"><img src="fizik1.jpg" alt="Fizik 1" class="lightbox-img"></div>
+                        </div>
+                        <a href="fizik_deney_raporu.pdf" class="file-link" download>Deney Raporu .PDF</a>
+                    </div>
+                </details>
+
+            </div>
+        </details>
+
+        <!-- 2. DÖNEM KLASÖRÜ ANA BAŞLIĞI -->
+        <details>
+            <summary>2. DÖNEM</summary>
+            <div class="folder-content">
+                
+                <!-- DERS 1: KİMYA -->
+                <details>
+                    <summary>KİMYA</summary>
+                    <div class="folder-content">
+                        <div class="gallery">
+                            <div class="gallery-item"><img src="kimya1.jpg" alt="Kimya 1" class="lightbox-img"></div>
+                            <div class="gallery-item"><img src="kimya2.jpg" alt="Kimya 2" class="lightbox-img"></div>
+                            <div class="gallery-item"><img src="kimya3.jpg" alt="Kimya 3" class="lightbox-img"></div>
+                        </div>
+                    </div>
+                </details>
+
+            </div>
+        </details>
+
     </div>
+
+    <!-- TAM EKRAN FOTOĞRAF GÖRÜNTÜLEYİCİ (LIGHTBOX) -->
+    <div id="lightbox">
+        <button id="closeBtn" class="lightbox-btn" onclick="closeLightbox()">×</button>
+        <button id="prevBtn" class="lightbox-btn" onclick="changeImage(-1)">&#10094;</button>
+        <img id="lightboxImg" src="">
+        <button id="nextBtn" class="lightbox-btn" onclick="changeImage(1)">&#10095;</button>
+    </div>
+
+    <script>
+        // Sitedeki "lightbox-img" sınıfına sahip tüm fotoğrafları bul
+        let images = Array.from(document.querySelectorAll('.lightbox-img'));
+        let currentIndex = 0;
+        
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+
+        // Fotoğraflara tıklayınca tam ekran modunu aç
+        images.forEach((img, index) => {
+            img.addEventListener('click', function() {
+                currentIndex = index;
+                showLightbox();
+            });
+        });
+
+        function showLightbox() {
+            lightboxImg.src = images[currentIndex].src;
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+        }
+
+        // Ok tuşlarına basıldığında resim değiştir
+        function changeImage(direction) {
+            currentIndex += direction;
+            
+            // Son resimden sonrasına tıklandığında başa sar, en baştayken geriye basılırsa sona git
+            if (currentIndex >= images.length) {
+                currentIndex = 0;
+            } else if (currentIndex < 0) {
+                currentIndex = images.length - 1;
+            }
+            
+            lightboxImg.src = images[currentIndex].src;
+        }
+
+        // Klavye Kısayolları (ESC ile çıkış, Sağ/Sol oklarla gezinme)
+        document.addEventListener('keydown', function(e) {
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') changeImage(1);
+                if (e.key === 'ArrowLeft') changeImage(-1);
+            }
+        });
+    </script>
 
 </body>
 </html>
