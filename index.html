@@ -200,26 +200,33 @@
             opacity: 1;
         }
 
-        /* --- İNDİRİLEBİLİR DOSYALAR --- */
-        .file-link {
+        /* --- DOSYA BUTONLARI (GÖRÜNTÜLE VE İNDİR) --- */
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin: 5px 0;
+            flex-wrap: wrap;
+        }
+        .file-link, .view-link {
             display: inline-block;
             color: var(--neon-green);
             text-decoration: none;
-            margin: 5px 0;
             padding: 5px 10px;
-            border: 1px solid transparent;
-            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--neon-green);
+            background: rgba(0,0,0,0.8);
+            transition: 0.3s;
         }
         .file-link:before { content: "[İNDİR] "; font-weight: bold; }
-        .file-link:hover {
+        .view-link:before { content: "[AÇ] "; font-weight: bold; }
+        
+        .file-link:hover, .view-link:hover {
             color: #000;
             background-color: var(--neon-green);
-            border: 1px solid var(--neon-green);
             box-shadow: 0 0 10px var(--neon-green);
         }
 
-        /* --- TAM EKRAN FOTOĞRAF (LIGHTBOX) --- */
-        #lightbox {
+        /* --- TAM EKRAN FOTOĞRAF (LIGHTBOX) VE PDF MODALI --- */
+        #lightbox, #pdfModal {
             display: none;
             position: fixed;
             z-index: 9999;
@@ -235,7 +242,14 @@
             border: 2px solid var(--neon-green);
             box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
         }
-        .lightbox-btn {
+        #pdfModal iframe {
+            width: 85%;
+            height: 85%;
+            border: 2px solid var(--neon-green);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
+            background-color: #fff; /* PDF'lerin düzgün okunabilmesi için beyaz arkaplan */
+        }
+        .modal-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
@@ -249,17 +263,19 @@
             user-select: none;
             transition: 0.2s;
         }
-        .lightbox-btn:hover { color: #fff; transform: translateY(-50%) scale(1.2); }
+        .modal-btn:hover { color: #fff; transform: translateY(-50%) scale(1.2); }
         #prevBtn { left: 20px; }
         #nextBtn { right: 20px; }
-        #closeBtn {
+        
+        .close-btn {
+            position: absolute;
             top: 20px !important;
             right: 30px !important;
             transform: none !important;
             font-size: 3em;
             padding: 10px;
         }
-        #closeBtn:hover { transform: scale(1.2) !important; }
+        .close-btn:hover { transform: scale(1.2) !important; }
 
         .cursor { display: inline-block; width: 10px; height: 20px; background-color: var(--neon-green); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
@@ -274,7 +290,7 @@
                 flex-direction: row;
             }
             .ad-slot { height: 150px; }
-            .status-box { display: none; } /* Mobilde simetri kutusuna gerek yok */
+            .status-box { display: none; }
         }
         @media (max-width: 600px) {
             .sidebar { flex-direction: column; }
@@ -305,7 +321,7 @@
 
         <!-- ANA İÇERİK (Veri Arşivi) -->
         <div class="panel main-content">
-            <h1>[ Makü Yazılım Mühendislği Arşivi ]<span class="cursor"></span></h1>
+            <h1>[ Makü Yazılım Mühendisliği Arşivi ]<span class="cursor"></span></h1>
 
             <!-- class="main-folder" arama motorunun üst dönemleri algılaması içindir -->
             <details class="main-folder">
@@ -319,7 +335,11 @@
                                 <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
                                 <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
                             </div>
-                            <a href="matematik_1_donem_ozet.zip" class="file-link" download>1. Donem Ozet .ZIP</a>
+                            <div class="btn-group">
+                                <!-- PDF Görüntüleme ve İndirme Butonları -->
+                                <a href="javascript:void(0)" onclick="openPdf('matematik_1_donem_ozet.pdf')" class="view-link">1. Dönem Özet .PDF</a>
+                                <a href="matematik_1_donem_ozet.zip" class="file-link" download>Tüm Notlar .ZIP</a>
+                            </div>
                         </div>
                     </details>
 
@@ -330,7 +350,9 @@
                                 <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
                                 <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
                             </div>
-                            <a href="matematik_1_donem_ozet.zip" class="file-link" download>1. Donem Ozet .ZIP</a>
+                            <div class="btn-group">
+                                <a href="ayrik_mat_notlar.zip" class="file-link" download>Ders Notları .ZIP</a>
+                            </div>
                         </div>
                     </details>
                     
@@ -340,7 +362,10 @@
                             <div class="gallery">
                                 <div class="gallery-item"><img src="fizik1.jpg" alt="Fizik 1" class="lightbox-img"></div>
                             </div>
-                            <a href="fizik_deney_raporu.pdf" class="file-link" download>Deney Raporu .PDF</a>
+                            <div class="btn-group">
+                                <a href="javascript:void(0)" onclick="openPdf('fizik_deney_raporu.pdf')" class="view-link">Deney Raporu .PDF</a>
+                                <a href="fizik_deney_raporu.pdf" class="file-link" download>İndir</a>
+                            </div>
                         </div>
                     </details>
                 </div>
@@ -368,7 +393,6 @@
 
         <!-- SAĞ KENAR (Sistem Durumu + Reklam 3 & 4) -->
         <div class="sidebar">
-            <!-- Arama çubuğu ile birebir aynı yükseklikte olan simetri kutusu -->
             <div class="panel">
                 <div class="status-box">[ He He He ]</div>
             </div>
@@ -381,19 +405,24 @@
                 <div class="ad-slot"><img src="reklam4.jpg" alt=""></div>
             </div>
         </div>
-
     </div>
 
-    <!-- LIGHTBOX -->
+    <!-- LIGHTBOX (FOTOĞRAF GÖRÜNTÜLEYİCİ) -->
     <div id="lightbox">
-        <button id="closeBtn" class="lightbox-btn" onclick="closeLightbox()">×</button>
-        <button id="prevBtn" class="lightbox-btn" onclick="changeImage(-1)">&#10094;</button>
+        <button id="closeBtn" class="modal-btn close-btn" onclick="closeLightbox()">×</button>
+        <button id="prevBtn" class="modal-btn" onclick="changeImage(-1)">&#10094;</button>
         <img id="lightboxImg" src="">
-        <button id="nextBtn" class="lightbox-btn" onclick="changeImage(1)">&#10095;</button>
+        <button id="nextBtn" class="modal-btn" onclick="changeImage(1)">&#10095;</button>
+    </div>
+
+    <!-- PDF GÖRÜNTÜLEYİCİ MODALI -->
+    <div id="pdfModal">
+        <button class="modal-btn close-btn" onclick="closePdf()">×</button>
+        <iframe id="pdfIframe" src=""></iframe>
     </div>
 
     <script>
-        // --- ARAMA MOTORU JAVASCRIPT KODLARI ---
+        // --- ARAMA MOTORU ---
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
@@ -430,7 +459,7 @@
             });
         });
 
-        // --- MATRIX EFEKTİ JAVASCRIPT KODLARI ---
+        // --- MATRIX EFEKTİ ---
         const canvas = document.getElementById('matrixCanvas');
         const ctx = canvas.getContext('2d');
         canvas.width = window.innerWidth;
@@ -459,7 +488,7 @@
             canvas.height = window.innerHeight;
         });
 
-        // --- LIGHTBOX JAVASCRIPT KODLARI ---
+        // --- LIGHTBOX KODLARI ---
         let images = Array.from(document.querySelectorAll('.lightbox-img'));
         let currentIndex = 0;
         const lightbox = document.getElementById('lightbox');
@@ -476,4 +505,43 @@
             lightboxImg.src = images[currentIndex].src;
             lightbox.style.display = 'flex';
         }
-        function closeLightbox
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+        }
+        function changeImage(direction) {
+            currentIndex += direction;
+            if (currentIndex >= images.length) currentIndex = 0;
+            else if (currentIndex < 0) currentIndex = images.length - 1;
+            lightboxImg.src = images[currentIndex].src;
+        }
+
+        // --- PDF MODAL KODLARI ---
+        const pdfModal = document.getElementById('pdfModal');
+        const pdfIframe = document.getElementById('pdfIframe');
+
+        function openPdf(pdfUrl) {
+            pdfIframe.src = pdfUrl; // PDF yolunu iframe'e yükle
+            pdfModal.style.display = 'flex'; // Ekranı göster
+        }
+
+        function closePdf() {
+            pdfModal.style.display = 'none'; // Ekranı gizle
+            pdfIframe.src = ''; // Arka planda indirmeyi/çalışmayı durdur
+        }
+
+        // --- ORTAK KLAVYE KONTROLLERİ ---
+        document.addEventListener('keydown', function(e) {
+            // Lightbox Açıksa
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'Escape') closeLightbox();
+                if (e.key === 'ArrowRight') changeImage(1);
+                if (e.key === 'ArrowLeft') changeImage(-1);
+            }
+            // PDF Açıksa
+            if (pdfModal.style.display === 'flex') {
+                if (e.key === 'Escape') closePdf();
+            }
+        });
+    </script>
+</body>
+</html>
