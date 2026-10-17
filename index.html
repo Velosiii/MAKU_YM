@@ -8,7 +8,7 @@
         :root {
             --neon-green: #39ff14;
             --bg-dark: #000000;
-            --panel-bg: rgba(17, 17, 17, 0.85); /* Arkaplanı hafif şeffaf yaptık */
+            --panel-bg: rgba(17, 17, 17, 0.85);
         }
 
         body {
@@ -16,10 +16,8 @@
             color: var(--neon-green);
             font-family: 'Courier New', Courier, monospace;
             margin: 0;
-            padding: 40px 20px;
-            display: flex;
-            justify-content: center;
-            overflow-x: hidden; /* Yatay kaydırma çubuğunu gizle */
+            padding: 20px;
+            overflow-x: hidden;
         }
 
         /* --- MATRIX ARKAPLAN --- */
@@ -29,31 +27,97 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            z-index: -1; /* Sitenin arkasında kalmasını sağlar */
+            z-index: -1;
         }
 
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background-color: var(--panel-bg);
-            backdrop-filter: blur(4px); /* Arkadan akan yazıları hafif bulanıklaştırır */
-            border: 1px solid var(--neon-green);
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3), inset 0 0 10px rgba(57, 255, 20, 0.1);
-            padding: 30px;
-            border-radius: 5px;
+        /* --- SAYFA YERLEŞİMİ (3 SÜTUN) --- */
+        .layout-wrapper {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 250px;
+            flex-shrink: 0;
             z-index: 1;
         }
 
+        .main-content {
+            flex-grow: 1;
+            max-width: 800px;
+        }
+
+        /* Ortak Panel Stili */
+        .panel {
+            background-color: var(--panel-bg);
+            backdrop-filter: blur(4px);
+            border: 1px solid var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3), inset 0 0 10px rgba(57, 255, 20, 0.1);
+            padding: 20px;
+            border-radius: 5px;
+        }
+
+        /* --- ARAMA ÇUBUĞU --- */
+        .search-box {
+            width: 100%;
+            background-color: #000;
+            color: var(--neon-green);
+            border: 1px dashed var(--neon-green);
+            padding: 10px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em;
+            outline: none;
+            box-sizing: border-box;
+            transition: 0.3s;
+        }
+        .search-box:focus {
+            box-shadow: 0 0 10px var(--neon-green);
+        }
+
+        /* --- REKLAM ALANLARI --- */
+        .ad-slot {
+            width: 100%;
+            height: 250px; /* Reklam alanının yüksekliği */
+            border: 1px solid rgba(57, 255, 20, 0.5);
+            background-color: #050505;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        .ad-slot::before {
+            content: "[ REKLAM_ALANI ]";
+            position: absolute;
+            color: rgba(57, 255, 20, 0.3);
+            font-size: 0.9em;
+            z-index: 0;
+        }
+        .ad-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+            position: relative;
+        }
+
+        /* --- KLASÖR VE ANA İÇERİK --- */
         h1 {
             text-align: center;
             text-transform: uppercase;
             text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
             border-bottom: 1px dashed var(--neon-green);
             padding-bottom: 15px;
+            margin-top: 0;
             margin-bottom: 30px;
         }
 
-        /* --- KLASÖR YAPISI --- */
         details {
             margin-bottom: 15px;
             border: 1px solid rgba(57, 255, 20, 0.3);
@@ -61,7 +125,6 @@
             border-radius: 5px;
             background: rgba(10, 10, 10, 0.9);
         }
-        
         summary {
             font-size: 1.2em;
             font-weight: bold;
@@ -70,7 +133,6 @@
             text-shadow: 0 0 3px var(--neon-green);
             list-style-type: "📁 ";
         }
-        
         details[open] > summary {
             list-style-type: "📂 ";
             color: #fff;
@@ -78,7 +140,6 @@
             padding-bottom: 10px;
             margin-bottom: 10px;
         }
-
         summary:hover {
             color: #fff;
             text-shadow: 0 0 8px var(--neon-green);
@@ -104,7 +165,6 @@
             margin-top: 15px;
             margin-bottom: 15px;
         }
-
         .gallery-item img {
             width: 100%;
             height: 120px;
@@ -114,7 +174,6 @@
             transition: transform 0.2s, box-shadow 0.2s;
             opacity: 0.8;
         }
-
         .gallery-item img:hover {
             transform: scale(1.05);
             box-shadow: 0 0 10px var(--neon-green);
@@ -150,14 +209,12 @@
             align-items: center;
             justify-content: center;
         }
-
         #lightbox img {
             max-width: 85%;
             max-height: 85%;
             border: 2px solid var(--neon-green);
             box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
         }
-
         .lightbox-btn {
             position: absolute;
             top: 50%;
@@ -173,11 +230,8 @@
             transition: 0.2s;
         }
         .lightbox-btn:hover { color: #fff; transform: translateY(-50%) scale(1.2); }
-
         #prevBtn { left: 20px; }
         #nextBtn { right: 20px; }
-        
-        /* X Butonu tam sağ üste sabitlendi ve transform özellikleri ezildi */
         #closeBtn {
             top: 20px !important;
             right: 30px !important;
@@ -190,13 +244,19 @@
         .cursor { display: inline-block; width: 10px; height: 20px; background-color: var(--neon-green); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        .footer-log {
-            margin-top: 40px;
-            text-align: right;
-            font-size: 0.8em;
-            opacity: 0.5;
-            border-top: 1px solid rgba(57,255,20,0.3);
-            padding-top: 10px;
+        /* Mobil Cihazlar İçin Tasarım Uyumluluğu */
+        @media (max-width: 900px) {
+            .layout-wrapper {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+            }
+            .ad-slot { height: 150px; }
+        }
+        @media (max-width: 600px) {
+            .sidebar { flex-direction: column; }
         }
     </style>
 </head>
@@ -205,50 +265,88 @@
     <!-- MATRIX EFEKTİ İÇİN CANVAS -->
     <canvas id="matrixCanvas"></canvas>
 
-    <div class="container">
-        <h1>[ SİSTEM VERİ ARŞİVİ ]<span class="cursor"></span></h1>
-
-        <details>
-            <summary>1. DÖNEM</summary>
-            <div class="folder-content">
-                <details>
-                    <summary>MATEMATİK</summary>
-                    <div class="folder-content">
-                        <div class="gallery">
-                            <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
-                            <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
-                        </div>
-                        <a href="matematik_1_donem_ozet.zip" class="file-link" download>1. Donem Ozet .ZIP</a>
-                    </div>
-                </details>
-                <details>
-                    <summary>FİZİK</summary>
-                    <div class="folder-content">
-                        <div class="gallery">
-                            <div class="gallery-item"><img src="fizik1.jpg" alt="Fizik 1" class="lightbox-img"></div>
-                        </div>
-                        <a href="fizik_deney_raporu.pdf" class="file-link" download>Deney Raporu .PDF</a>
-                    </div>
-                </details>
+    <div class="layout-wrapper">
+        
+        <!-- SOL KENAR (Arama + Reklam 1 & 2) -->
+        <div class="sidebar">
+            <div class="panel">
+                <input type="text" id="searchInput" class="search-box" placeholder=">_ KLASÖR ARA...">
             </div>
-        </details>
-
-        <details>
-            <summary>2. DÖNEM</summary>
-            <div class="folder-content">
-                <details>
-                    <summary>KİMYA</summary>
-                    <div class="folder-content">
-                        <div class="gallery">
-                            <div class="gallery-item"><img src="kimya1.jpg" alt="Kimya 1" class="lightbox-img"></div>
-                            <div class="gallery-item"><img src="kimya2.jpg" alt="Kimya 2" class="lightbox-img"></div>
-                        </div>
-                    </div>
-                </details>
+            
+            <div class="panel" style="padding: 10px;">
+                <!-- HTML'e JPG Reklamını Buradan Gireceksin -->
+                <div class="ad-slot"><img src="reklam1.jpg" alt=""></div>
             </div>
-        </details>
+            
+            <div class="panel" style="padding: 10px;">
+                <div class="ad-slot"><img src="reklam2.jpg" alt=""></div>
+            </div>
+        </div>
 
-        <div class="footer-log">OS: YORHA // LOGS_OF_VELOSI</div>
+        <!-- ANA İÇERİK (Sistem Veri Arşivi) -->
+        <div class="panel main-content">
+            <h1>[ SİSTEM VERİ ARŞİVİ ]<span class="cursor"></span></h1>
+
+            <!-- class="main-folder" arama motorunun üst dönemleri algılaması içindir -->
+            <details class="main-folder">
+                <summary>1. DÖNEM</summary>
+                <div class="folder-content">
+                    
+                    <!-- class="sub-folder" arama motorunun dersleri algılaması içindir -->
+                    <details class="sub-folder">
+                        <summary>MATEMATİK</summary>
+                        <div class="folder-content">
+                            <div class="gallery">
+                                <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
+                                <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
+                            </div>
+                            <a href="matematik_1_donem_ozet.zip" class="file-link" download>1. Donem Ozet .ZIP</a>
+                        </div>
+                    </details>
+                    
+                    <details class="sub-folder">
+                        <summary>FİZİK</summary>
+                        <div class="folder-content">
+                            <div class="gallery">
+                                <div class="gallery-item"><img src="fizik1.jpg" alt="Fizik 1" class="lightbox-img"></div>
+                            </div>
+                            <a href="fizik_deney_raporu.pdf" class="file-link" download>Deney Raporu .PDF</a>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <details class="main-folder">
+                <summary>2. DÖNEM</summary>
+                <div class="folder-content">
+                    <details class="sub-folder">
+                        <summary>KİMYA</summary>
+                        <div class="folder-content">
+                            <div class="gallery">
+                                <div class="gallery-item"><img src="kimya1.jpg" alt="Kimya 1" class="lightbox-img"></div>
+                                <div class="gallery-item"><img src="kimya2.jpg" alt="Kimya 2" class="lightbox-img"></div>
+                            </div>
+                        </div>
+                    </details>
+                </div>
+            </details>
+
+            <div style="margin-top: 40px; text-align: right; font-size: 0.8em; opacity: 0.5; border-top: 1px solid rgba(57,255,20,0.3); padding-top: 10px;">
+                OS: YORHA // LOGS_OF_VELOSI
+            </div>
+        </div>
+
+        <!-- SAĞ KENAR (Reklam 3 & 4) -->
+        <div class="sidebar">
+            <div class="panel" style="padding: 10px;">
+                <div class="ad-slot"><img src="reklam3.jpg" alt=""></div>
+            </div>
+            
+            <div class="panel" style="padding: 10px;">
+                <div class="ad-slot"><img src="reklam4.jpg" alt=""></div>
+            </div>
+        </div>
+
     </div>
 
     <!-- LIGHTBOX -->
@@ -260,61 +358,80 @@
     </div>
 
     <script>
+        // --- ARAMA MOTORU JAVASCRIPT KODLARI ---
+        const searchInput = document.getElementById('searchInput');
+        searchInput.addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const mainFolders = document.querySelectorAll('.main-folder');
+
+            mainFolders.forEach(main => {
+                let mainHasMatch = false;
+                // Ana dönem isminde eşleşme var mı?
+                const mainSummaryText = main.querySelector('summary').innerText.toLowerCase();
+                const mainMatches = mainSummaryText.includes(query);
+
+                const subFolders = main.querySelectorAll('.sub-folder');
+                
+                subFolders.forEach(sub => {
+                    const subSummaryText = sub.querySelector('summary').innerText.toLowerCase();
+                    // Eğer ders ismi aranan kelimeyi içeriyorsa VEYA Dönem ismi aranan kelimeyi içeriyorsa
+                    if (subSummaryText.includes(query) || mainMatches) {
+                        sub.style.display = 'block';
+                        mainHasMatch = true;
+                    } else {
+                        sub.style.display = 'none';
+                    }
+                });
+
+                // Eğer arama yapılıyorsa ve eşleşme varsa klasörü otomatik aç
+                if (query !== '') {
+                    if (mainHasMatch || mainMatches) {
+                        main.style.display = 'block';
+                        main.open = true;
+                    } else {
+                        main.style.display = 'none';
+                    }
+                } else {
+                    // Arama kutusu boşsa her şeyi görünür yap ve klasörleri kapa
+                    main.style.display = 'block';
+                    main.open = false;
+                    subFolders.forEach(sub => sub.style.display = 'block');
+                }
+            });
+        });
+
         // --- MATRIX EFEKTİ JAVASCRIPT KODLARI ---
         const canvas = document.getElementById('matrixCanvas');
         const ctx = canvas.getContext('2d');
-
-        // Canvas boyutunu ekran boyutuna ayarla
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        // Ekranda akacak karakterler
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*YORHAVELOSI'.split('');
         const fontSize = 14;
         const columns = canvas.width / fontSize;
         const drops = [];
+        for(let x = 0; x < columns; x++) drops[x] = 1;
 
-        // Her sütun için başlangıç Y koordinatını 1 yap
-        for(let x = 0; x < columns; x++) {
-            drops[x] = 1;
-        }
-
-        // Çizim fonksiyonu
         function drawMatrix() {
-            // Siyah arkaplanı hafif şeffaf çizerek arkadaki harflerin silikleşerek kaybolmasını sağla
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            // Harf rengi ve fontu
             ctx.fillStyle = '#39ff14';
             ctx.font = fontSize + 'px Courier New';
-
             for(let i = 0; i < drops.length; i++) {
                 const text = chars[Math.floor(Math.random() * chars.length)];
                 ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-                // Harfler ekranın altına ulaştığında rastgele bir şansla tekrar tepeye döndür
-                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
+                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
-        
-        // Animasyon hızı (33ms = ~30fps)
         setInterval(drawMatrix, 33);
-
-        // Ekran boyutu değişirse canvas'ı güncelle
         window.addEventListener('resize', () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         });
 
-
         // --- LIGHTBOX JAVASCRIPT KODLARI ---
         let images = Array.from(document.querySelectorAll('.lightbox-img'));
         let currentIndex = 0;
-        
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
 
@@ -329,11 +446,7 @@
             lightboxImg.src = images[currentIndex].src;
             lightbox.style.display = 'flex';
         }
-
-        function closeLightbox() {
-            lightbox.style.display = 'none';
-        }
-
+        function closeLightbox() { lightbox.style.display = 'none'; }
         function changeImage(direction) {
             currentIndex += direction;
             if (currentIndex >= images.length) currentIndex = 0;
@@ -349,6 +462,5 @@
             }
         });
     </script>
-
 </body>
 </html>
