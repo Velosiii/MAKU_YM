@@ -30,10 +30,11 @@
             z-index: -1;
         }
 
-        /* --- SAYFA YERLEŞİMİ (3 SÜTUN) --- */
+        /* --- SAYFA YERLEŞİMİ (KUSURSUZ 3 SÜTUN) --- */
         .layout-wrapper {
             display: flex;
             justify-content: center;
+            align-items: flex-start;
             gap: 20px;
             max-width: 1400px;
             margin: 0 auto;
@@ -63,27 +64,46 @@
             border-radius: 5px;
         }
 
-        /* --- ARAMA ÇUBUĞU --- */
+        /* --- SOL ÜST ARAMA ÇUBUĞU --- */
         .search-box {
             width: 100%;
             background-color: #000;
             color: var(--neon-green);
             border: 1px dashed var(--neon-green);
-            padding: 10px;
+            padding: 12px;
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.1em;
             outline: none;
             box-sizing: border-box;
             transition: 0.3s;
+            box-shadow: inset 0 0 5px rgba(57, 255, 20, 0.2);
         }
         .search-box:focus {
-            box-shadow: 0 0 10px var(--neon-green);
+            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5), inset 0 0 5px rgba(57, 255, 20, 0.2);
+        }
+
+        /* --- SAĞ ÜST SİMETRİ / DURUM KUTUSU --- */
+        .status-box {
+            width: 100%;
+            color: var(--neon-green);
+            border: 1px dashed rgba(57, 255, 20, 0.4);
+            padding: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em;
+            text-align: center;
+            box-sizing: border-box;
+            text-shadow: 0 0 5px var(--neon-green);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; box-shadow: inset 0 0 2px rgba(57, 255, 20, 0.1); }
+            50% { opacity: 1; box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.3); }
         }
 
         /* --- REKLAM ALANLARI --- */
         .ad-slot {
             width: 100%;
-            height: 250px; /* Reklam alanının yüksekliği */
+            height: 250px;
             border: 1px solid rgba(57, 255, 20, 0.5);
             background-color: #050505;
             display: flex;
@@ -254,6 +274,7 @@
                 flex-direction: row;
             }
             .ad-slot { height: 150px; }
+            .status-box { display: none; } /* Mobilde simetri kutusuna gerek yok */
         }
         @media (max-width: 600px) {
             .sidebar { flex-direction: column; }
@@ -274,7 +295,6 @@
             </div>
             
             <div class="panel" style="padding: 10px;">
-                <!-- HTML'e JPG Reklamını Buradan Gireceksin -->
                 <div class="ad-slot"><img src="reklam1.jpg" alt=""></div>
             </div>
             
@@ -283,7 +303,7 @@
             </div>
         </div>
 
-        <!-- ANA İÇERİK (Sistem Veri Arşivi) -->
+        <!-- ANA İÇERİK (Veri Arşivi) -->
         <div class="panel main-content">
             <h1>[ SİSTEM VERİ ARŞİVİ ]<span class="cursor"></span></h1>
 
@@ -292,7 +312,6 @@
                 <summary>1. DÖNEM</summary>
                 <div class="folder-content">
                     
-                    <!-- class="sub-folder" arama motorunun dersleri algılaması içindir -->
                     <details class="sub-folder">
                         <summary>MATEMATİK</summary>
                         <div class="folder-content">
@@ -336,8 +355,13 @@
             </div>
         </div>
 
-        <!-- SAĞ KENAR (Reklam 3 & 4) -->
+        <!-- SAĞ KENAR (Sistem Durumu + Reklam 3 & 4) -->
         <div class="sidebar">
+            <!-- Arama çubuğu ile birebir aynı yükseklikte olan simetri kutusu -->
+            <div class="panel">
+                <div class="status-box">[ SİSTEM_AKTİF ]</div>
+            </div>
+
             <div class="panel" style="padding: 10px;">
                 <div class="ad-slot"><img src="reklam3.jpg" alt=""></div>
             </div>
@@ -366,15 +390,12 @@
 
             mainFolders.forEach(main => {
                 let mainHasMatch = false;
-                // Ana dönem isminde eşleşme var mı?
                 const mainSummaryText = main.querySelector('summary').innerText.toLowerCase();
                 const mainMatches = mainSummaryText.includes(query);
-
                 const subFolders = main.querySelectorAll('.sub-folder');
                 
                 subFolders.forEach(sub => {
                     const subSummaryText = sub.querySelector('summary').innerText.toLowerCase();
-                    // Eğer ders ismi aranan kelimeyi içeriyorsa VEYA Dönem ismi aranan kelimeyi içeriyorsa
                     if (subSummaryText.includes(query) || mainMatches) {
                         sub.style.display = 'block';
                         mainHasMatch = true;
@@ -383,7 +404,6 @@
                     }
                 });
 
-                // Eğer arama yapılıyorsa ve eşleşme varsa klasörü otomatik aç
                 if (query !== '') {
                     if (mainHasMatch || mainMatches) {
                         main.style.display = 'block';
@@ -392,7 +412,6 @@
                         main.style.display = 'none';
                     }
                 } else {
-                    // Arama kutusu boşsa her şeyi görünür yap ve klasörleri kapa
                     main.style.display = 'block';
                     main.open = false;
                     subFolders.forEach(sub => sub.style.display = 'block');
@@ -446,21 +465,4 @@
             lightboxImg.src = images[currentIndex].src;
             lightbox.style.display = 'flex';
         }
-        function closeLightbox() { lightbox.style.display = 'none'; }
-        function changeImage(direction) {
-            currentIndex += direction;
-            if (currentIndex >= images.length) currentIndex = 0;
-            else if (currentIndex < 0) currentIndex = images.length - 1;
-            lightboxImg.src = images[currentIndex].src;
-        }
-
-        document.addEventListener('keydown', function(e) {
-            if (lightbox.style.display === 'flex') {
-                if (e.key === 'Escape') closeLightbox();
-                if (e.key === 'ArrowRight') changeImage(1);
-                if (e.key === 'ArrowLeft') changeImage(-1);
-            }
-        });
-    </script>
-</body>
-</html>
+        function closeLightbox
