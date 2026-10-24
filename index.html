@@ -6,7 +6,8 @@
     <title>Makü Yazılım Mühendisliği Arşivi</title>
     <style>
         :root {
-            --neon-green: #39ff14;
+            /* Neon yeşilin parlaklığı kısıldı, daha okunaklı ve göz yormayan bir ton seçildi */
+            --neon-green: #2ecc40; 
             --bg-dark: #000000;
             --panel-bg: rgba(17, 17, 17, 0.85);
         }
@@ -22,154 +23,101 @@
 
         /* --- MATRIX ARKAPLAN --- */
         #matrixCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: -1;
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
+            opacity: 0.8; /* Matrix yazılarının parlaklığı da biraz kısıldı */
         }
 
         /* --- SAYFA YERLEŞİMİ --- */
         .layout-wrapper {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
+            display: flex; justify-content: center; align-items: flex-start; gap: 20px;
+            max-width: 1400px; margin: 0 auto;
         }
 
-        .sidebar {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            width: 250px;
-            flex-shrink: 0;
-            z-index: 1;
-        }
-
-        .main-content {
-            flex-grow: 1;
-            max-width: 800px;
-        }
+        .sidebar { display: flex; flex-direction: column; gap: 20px; width: 250px; flex-shrink: 0; z-index: 1; }
+        .main-content { flex-grow: 1; max-width: 800px; }
 
         .panel {
-            background-color: var(--panel-bg);
-            backdrop-filter: blur(4px);
+            background-color: var(--panel-bg); backdrop-filter: blur(4px);
             border: 1px solid var(--neon-green);
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.3), inset 0 0 10px rgba(57, 255, 20, 0.1);
-            padding: 20px;
-            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(46, 204, 64, 0.2); /* Kutu gölgeleri hafifletildi */
+            padding: 20px; border-radius: 5px;
         }
 
         /* --- ARAMA ÇUBUĞU VE DURUM --- */
         .search-box {
-            width: 100%;
-            background-color: #000;
-            color: var(--neon-green);
-            border: 1px dashed var(--neon-green);
-            padding: 12px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.1em;
-            outline: none;
-            box-sizing: border-box;
-            transition: 0.3s;
+            width: 100%; background-color: #000; color: var(--neon-green);
+            border: 1px dashed var(--neon-green); padding: 12px;
+            font-family: 'Courier New', Courier, monospace; font-size: 1.1em;
+            outline: none; box-sizing: border-box; transition: 0.3s;
         }
-        .search-box:focus { box-shadow: 0 0 15px rgba(57, 255, 20, 0.5), inset 0 0 5px rgba(57, 255, 20, 0.2); }
+        .search-box:focus { box-shadow: 0 0 10px rgba(46, 204, 64, 0.4); }
 
         .status-box {
-            width: 100%;
-            color: var(--neon-green);
-            border: 1px dashed rgba(57, 255, 20, 0.4);
-            padding: 12px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 1.1em;
-            text-align: center;
-            box-sizing: border-box;
-            text-shadow: 0 0 5px var(--neon-green);
+            width: 100%; color: var(--neon-green); border: 1px dashed rgba(46, 204, 64, 0.4);
+            padding: 12px; font-family: 'Courier New', Courier, monospace; font-size: 1.1em;
+            text-align: center; box-sizing: border-box;
+            text-shadow: 0 0 3px var(--neon-green);
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0%, 100% { opacity: 0.6; box-shadow: inset 0 0 2px rgba(57, 255, 20, 0.1); }
-            50% { opacity: 1; box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.3); }
+            0%, 100% { opacity: 0.7; box-shadow: inset 0 0 2px rgba(46, 204, 64, 0.1); }
+            50% { opacity: 1; box-shadow: inset 0 0 8px rgba(46, 204, 64, 0.2); }
         }
 
         /* --- REKLAM ALANLARI --- */
         .ad-slot {
-            width: 100%; height: 250px; border: 1px solid rgba(57, 255, 20, 0.5);
+            width: 100%; height: 250px; border: 1px solid rgba(46, 204, 64, 0.4);
             background-color: #050505; display: flex; align-items: center; justify-content: center;
             overflow: hidden; position: relative;
         }
-        .ad-slot::before { content: "[ REKLAM_ALANI ]"; position: absolute; color: rgba(57, 255, 20, 0.3); z-index: 0; }
+        .ad-slot::before { content: "[ REKLAM_ALANI ]"; position: absolute; color: rgba(46, 204, 64, 0.3); z-index: 0; }
         .ad-slot img { width: 100%; height: 100%; object-fit: cover; z-index: 1; position: relative; }
 
         /* --- KLASÖRLER --- */
         h1 {
-            text-align: center; text-transform: uppercase; text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+            text-align: center; text-transform: uppercase; 
+            text-shadow: 0 0 5px var(--neon-green); /* Başlık parlaması azaltıldı */
             border-bottom: 1px dashed var(--neon-green); padding-bottom: 15px; margin-top: 0; margin-bottom: 30px;
         }
 
         details {
-            margin-bottom: 15px; border: 1px solid rgba(57, 255, 20, 0.3); padding: 10px; border-radius: 5px;
+            margin-bottom: 15px; border: 1px solid rgba(46, 204, 64, 0.3); padding: 10px; border-radius: 5px;
             background: rgba(10, 10, 10, 0.9);
         }
         summary {
-            font-size: 1.2em; font-weight: bold; cursor: pointer; outline: none; text-shadow: 0 0 3px var(--neon-green);
+            font-size: 1.15em; font-weight: bold; cursor: pointer; outline: none; 
+            text-shadow: 0 0 2px var(--neon-green); /* Okunabilirlik için metin parlaması çok kısıldı */
             list-style-type: "📁 ";
         }
         details[open] > summary {
-            list-style-type: "📂 "; color: #fff; border-bottom: 1px dashed rgba(57, 255, 20, 0.3);
+            list-style-type: "📂 "; color: #fff; border-bottom: 1px dashed rgba(46, 204, 64, 0.3);
             padding-bottom: 10px; margin-bottom: 10px;
         }
-        summary:hover { color: #fff; text-shadow: 0 0 8px var(--neon-green); }
-        .folder-content { margin-left: 10px; border-left: 1px dashed rgba(57, 255, 20, 0.5); padding-left: 20px; }
-        details details { margin-bottom: 10px; border-color: rgba(57, 255, 20, 0.15); background: rgba(5, 5, 5, 0.9); }
+        summary:hover { color: #fff; text-shadow: 0 0 5px var(--neon-green); }
+        
+        .folder-content { margin-left: 10px; border-left: 1px dashed rgba(46, 204, 64, 0.4); padding-left: 20px; }
+        details details { margin-bottom: 10px; border-color: rgba(46, 204, 64, 0.2); background: rgba(5, 5, 5, 0.9); }
 
-        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 15px; margin-bottom: 15px; }
+        /* Hafta Klasörleri İçin Özel Stil */
+        .week-folder summary { font-size: 1em; color: #ddd; list-style-type: "📅 "; }
+        .week-folder[open] > summary { list-style-type: "📆 "; color: var(--neon-green); }
+
+        /* FOTOĞRAF GALERİSİ */
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 10px; margin-bottom: 10px; }
         .gallery-item img { width: 100%; height: 120px; object-fit: cover; border: 1px solid var(--neon-green); cursor: pointer; opacity: 0.8; }
         .gallery-item img:hover { transform: scale(1.05); box-shadow: 0 0 10px var(--neon-green); opacity: 1; }
 
-        /* --- YENİ: DOSYA İSİM KUTUSU (LİSTE YAPISI) --- */
-        .file-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        
+        /* --- DOSYA İSİM KUTUSU (LİSTE YAPISI) --- */
+        .file-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
         .file-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: rgba(5, 5, 5, 0.8);
-            border: 1px dashed rgba(57, 255, 20, 0.4);
-            padding: 10px 15px;
-            transition: 0.3s;
+            display: flex; justify-content: space-between; align-items: center;
+            background-color: rgba(5, 5, 5, 0.8); border: 1px dashed rgba(46, 204, 64, 0.4);
+            padding: 10px 15px; transition: 0.3s;
         }
-        
-        .file-item:hover {
-            border-color: var(--neon-green);
-            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.1);
-        }
-        
-        .file-name {
-            color: #fff;
-            font-size: 0.95em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .file-name i {
-            color: var(--neon-green);
-            font-style: normal;
-        }
-
-        .file-actions {
-            display: flex;
-            gap: 8px;
-        }
+        .file-item:hover { border-color: var(--neon-green); box-shadow: inset 0 0 10px rgba(46, 204, 64, 0.1); }
+        .file-name { color: #fff; font-size: 0.95em; display: flex; align-items: center; gap: 10px; }
+        .file-name i { color: var(--neon-green); font-style: normal; font-weight: bold; }
+        .file-actions { display: flex; gap: 8px; }
 
         /* --- DOSYA BUTONLARI --- */
         .file-link, .view-link {
@@ -177,21 +125,21 @@
             border: 1px solid var(--neon-green); background: rgba(0,0,0,0.8); transition: 0.3s; font-size: 0.85em;
         }
         .file-link:before { content: "💾 "; }
-        .view-link.pdf-btn { border-color: #ff3939; color: #ff3939; }
+        .view-link.pdf-btn { border-color: #ff4747; color: #ff4747; }
         .view-link.pdf-btn:before { content: "📄 [AÇ] "; font-weight: bold; }
-        .view-link.pdf-btn:hover { background-color: #ff3939; color: #000; box-shadow: 0 0 10px #ff3939; }
+        .view-link.pdf-btn:hover { background-color: #ff4747; color: #000; box-shadow: 0 0 10px #ff4747; }
 
-        .view-link.slide-btn { border-color: #39aeff; color: #39aeff; }
+        .view-link.slide-btn { border-color: #47b5ff; color: #47b5ff; }
         .view-link.slide-btn:before { content: "📊 [AÇ] "; font-weight: bold; }
-        .view-link.slide-btn:hover { background-color: #39aeff; color: #000; box-shadow: 0 0 10px #39aeff; }
+        .view-link.slide-btn:hover { background-color: #47b5ff; color: #000; box-shadow: 0 0 10px #47b5ff; }
 
-        .view-link.code-btn { border-color: #ff8c00; color: #ff8c00; }
+        .view-link.code-btn { border-color: #ff9f1c; color: #ff9f1c; }
         .view-link.code-btn:before { content: "💻 [AÇ] "; font-weight: bold; }
-        .view-link.code-btn:hover { background-color: #ff8c00; color: #000; box-shadow: 0 0 10px #ff8c00; }
+        .view-link.code-btn:hover { background-color: #ff9f1c; color: #000; box-shadow: 0 0 10px #ff9f1c; }
 
-        .view-link.text-btn { border-color: #00ffff; color: #00ffff; }
+        .view-link.text-btn { border-color: #00f5d4; color: #00f5d4; }
         .view-link.text-btn:before { content: "📝 [AÇ] "; font-weight: bold; }
-        .view-link.text-btn:hover { background-color: #00ffff; color: #000; box-shadow: 0 0 10px #00ffff; }
+        .view-link.text-btn:hover { background-color: #00f5d4; color: #000; box-shadow: 0 0 10px #00f5d4; }
 
         .file-link:hover { color: #000; background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
 
@@ -200,16 +148,15 @@
             display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center;
         }
-        #lightbox img { max-width: 85%; max-height: 85%; border: 2px solid var(--neon-green); box-shadow: 0 0 30px rgba(57, 255, 20, 0.5); }
+        #lightbox img { max-width: 85%; max-height: 85%; border: 2px solid var(--neon-green); box-shadow: 0 0 30px rgba(46, 204, 64, 0.3); }
         #docModal iframe { width: 85%; height: 85%; border: 2px solid var(--neon-green); background-color: #fff; }
         
         .text-container {
             width: 80%; height: 80%; background-color: #050505; border: 2px solid var(--neon-green);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 15px rgba(57, 255, 20, 0.1);
+            box-shadow: 0 0 30px rgba(46, 204, 64, 0.1);
             padding: 40px 20px 20px 20px; overflow-y: auto; position: relative;
         }
         
-        /* YENİ: KOPYALA BUTONU */
         #copyBtn {
             position: absolute; top: 10px; right: 20px; background-color: #000; color: var(--neon-green);
             border: 1px dashed var(--neon-green); padding: 5px 10px; font-family: 'Courier New', Courier, monospace;
@@ -217,9 +164,9 @@
         }
         #copyBtn:hover { background-color: var(--neon-green); color: #000; }
 
-        #textContent { color: var(--neon-green); font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; word-wrap: break-word; font-size: 1.1em; margin: 0; }
+        #textContent { color: var(--neon-green); font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; word-wrap: break-word; font-size: 1.05em; margin: 0; }
 
-        .modal-btn { position: absolute; background: none; color: var(--neon-green); border: none; font-size: 3em; cursor: pointer; text-shadow: 0 0 10px var(--neon-green); transition: 0.2s; z-index: 10000; }
+        .modal-btn { position: absolute; background: none; color: var(--neon-green); border: none; font-size: 3em; cursor: pointer; transition: 0.2s; z-index: 10000; }
         .modal-btn:hover { color: #fff; transform: scale(1.2); }
         .close-btn { top: 20px; right: 30px; padding: 10px; }
         #prevBtn { top: 50%; left: 20px; transform: translateY(-50%); font-size: 4em; }
@@ -257,15 +204,51 @@
                 <summary>1. DÖNEM - Şu an Buradayız</summary>
                 <div class="folder-content">
                     
-                    <details class="sub-folder">
+                    <details class="sub-folder" open>
                         <summary>MATEMATİK</summary>
                         <div class="folder-content">
-                            <div class="gallery">
-                                <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
-                                <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
-                            </div>
                             
-                            <!-- YENİ: DOSYA İSİM KUTUSU LİSTESİ -->
+                            <!-- YENİ: FOTOĞRAFLAR İÇİN AYRI KLASÖR (HAFTALIK YAPI) -->
+                            <details class="sub-folder photo-folder">
+                                <summary style="list-style-type: '📷 '; color: #fff;">DERS FOTOĞRAFLARI (1-14 HAFTA)</summary>
+                                <div class="folder-content">
+                                    
+                                    <details class="sub-folder week-folder">
+                                        <summary>1. Hafta</summary>
+                                        <div class="folder-content">
+                                            <div class="gallery">
+                                                <div class="gallery-item"><img src="mat1.jpg" alt="1. Hafta Foto" class="lightbox-img"></div>
+                                                <div class="gallery-item"><img src="mat2.jpg" alt="1. Hafta Foto" class="lightbox-img"></div>
+                                            </div>
+                                        </div>
+                                    </details>
+
+                                    <details class="sub-folder week-folder">
+                                        <summary>2. Hafta</summary>
+                                        <div class="folder-content">
+                                            <div class="gallery">
+                                                <!-- Buraya 2. hafta fotoğraflarını ekleyebilirsin -->
+                                            </div>
+                                        </div>
+                                    </details>
+                                    
+                                    <details class="sub-folder week-folder"><summary>3. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>4. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>5. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>6. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>7. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>8. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>9. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>10. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>11. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>12. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>13. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+                                    <details class="sub-folder week-folder"><summary>14. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
+
+                                </div>
+                            </details>
+
+                            <!-- DOSYA LİSTESİ (FOTOĞRAFLARDAN AYRI) -->
                             <div class="file-list">
                                 <div class="file-item">
                                     <span class="file-name"><i>[PDF]</i> 1. Dönem Final Özeti (Drive)</span>
@@ -288,9 +271,16 @@
                     <details class="sub-folder">
                         <summary>AYRIK MATEMATİK</summary>
                         <div class="folder-content">
-                            <div class="gallery">
-                                <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
-                            </div>
+                            <!-- BURADA DA AYNI MANTIĞI KULLANABİLİRSİN -->
+                            <details class="sub-folder photo-folder">
+                                <summary style="list-style-type: '📷 '; color: #fff;">DERS FOTOĞRAFLARI (1-14 HAFTA)</summary>
+                                <div class="folder-content">
+                                     <details class="sub-folder week-folder">
+                                        <summary>1. Hafta</summary>
+                                        <div class="folder-content"><div class="gallery"></div></div>
+                                    </details>
+                                </div>
+                            </details>
                             
                             <div class="file-list">
                                 <div class="file-item">
@@ -300,15 +290,7 @@
                                         <a href="ayrik_mat_final.pdf" class="file-link" download>İNDİR</a>
                                     </div>
                                 </div>
-                                <div class="file-item">
-                                    <span class="file-name"><i>[PPTX]</i> Graf Teorisi Sunumu</span>
-                                    <div class="file-actions">
-                                        <a href="javascript:void(0)" onclick="openDoc('ayrik_mat_sunum.pptx', 'slide')" class="view-link slide-btn"></a>
-                                        <a href="ayrik_mat_sunum.pptx" class="file-link" download>İNDİR</a>
-                                    </div>
-                                </div>
                             </div>
-
                         </div>
                     </details>
                 </div>
@@ -318,7 +300,7 @@
                 <summary>2. DÖNEM</summary>
                 <div class="folder-content">
                     
-                    <details class="sub-folder" open>
+                    <details class="sub-folder">
                         <summary>NESNEYE YÖNELİK PROGRAMLAMA (JAVA)</summary>
                         <div class="folder-content">
                             <div class="file-list">
@@ -329,13 +311,6 @@
                                         <a href="Main.java" class="file-link" download>İNDİR</a>
                                     </div>
                                 </div>
-                                <div class="file-item">
-                                    <span class="file-name"><i>[TXT]</i> OOP Ders Notları</span>
-                                    <div class="file-actions">
-                                        <a href="javascript:void(0)" onclick="openText('notlar.txt')" class="view-link text-btn"></a>
-                                        <a href="notlar.txt" class="file-link" download>İNDİR</a>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </details>
@@ -343,7 +318,7 @@
                 </div>
             </details>
 
-            <div style="margin-top: 40px; text-align: right; font-size: 0.8em; opacity: 0.5; border-top: 1px solid rgba(57,255,20,0.3); padding-top: 10px;">
+            <div style="margin-top: 40px; text-align: right; font-size: 0.8em; opacity: 0.5; border-top: 1px solid rgba(46,204,64,0.3); padding-top: 10px;">
                 OS: MADE BY VELOSI
             </div>
         </div>
@@ -412,7 +387,7 @@
         for(let x = 0; x < columns; x++) drops[x] = 1;
         function drawMatrix() {
             ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#39ff14'; ctx.font = fontSize + 'px Courier New';
+            ctx.fillStyle = '#2ecc40'; ctx.font = fontSize + 'px Courier New';
             for(let i = 0; i < drops.length; i++) {
                 ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
                 if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
@@ -462,7 +437,7 @@
         }
         function closeText() { textModal.style.display = 'none'; textContent.innerText = ""; }
 
-        // --- YENİ: KOPYALA BUTONU İŞLEVİ ---
+        // --- KOPYALA BUTONU ---
         function copyText() {
             const text = textContent.innerText;
             navigator.clipboard.writeText(text).then(() => {
