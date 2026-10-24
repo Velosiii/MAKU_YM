@@ -7,7 +7,7 @@
     <style>
         :root {
             --neon-green: #2ecc40; 
-            --bg-dark: #000000;
+            --bg-dark: #050505; /* Arkaplanı tam siyah yerine çok koyu gri yaptık, daha şık durur */
             --panel-bg: rgba(17, 17, 17, 0.85);
         }
 
@@ -18,11 +18,6 @@
             margin: 0;
             padding: 20px;
             overflow-x: hidden;
-        }
-
-        #matrixCanvas {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1;
-            opacity: 0.8;
         }
 
         .layout-wrapper {
@@ -153,6 +148,7 @@
         }
         #copyBtn:hover { background-color: var(--neon-green); color: #000; }
 
+        /* white-space: pre-wrap satır atlamalarını korumayı sağlar */
         #textContent { color: var(--neon-green); font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; word-wrap: break-word; font-size: 1.05em; margin: 0; }
 
         .modal-btn { position: absolute; background: none; color: var(--neon-green); border: none; font-size: 3em; cursor: pointer; transition: 0.2s; z-index: 10000; }
@@ -160,8 +156,6 @@
         .close-btn { top: 20px; right: 30px; padding: 10px; }
         #prevBtn { top: 50%; left: 20px; transform: translateY(-50%); font-size: 4em; }
         #nextBtn { top: 50%; right: 20px; transform: translateY(-50%); font-size: 4em; }
-        .cursor { display: inline-block; width: 10px; height: 20px; background-color: var(--neon-green); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
         @media (max-width: 900px) {
             .layout-wrapper { flex-direction: column; } .sidebar { width: 100%; flex-direction: row; }
@@ -176,8 +170,6 @@
 </head>
 <body>
 
-    <canvas id="matrixCanvas"></canvas>
-
     <div class="layout-wrapper">
         <div class="sidebar">
             <div class="panel">
@@ -188,7 +180,7 @@
         </div>
 
         <div class="panel main-content">
-            <h1>[ Makü Yazılım Mühendisliği Arşivi ]<span class="cursor"></span></h1>
+            <h1>[ Makü Yazılım Mühendisliği Arşivi ]</h1>
 
             <details class="main-folder">
                 <summary>1. DÖNEM - Şu an Buradayız</summary>
@@ -478,24 +470,6 @@
             });
         });
 
-        const canvas = document.getElementById('matrixCanvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*YORHAVELOSI'.split('');
-        const fontSize = 14; const columns = canvas.width / fontSize; const drops = [];
-        for(let x = 0; x < columns; x++) drops[x] = 1;
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#2ecc40'; ctx.font = fontSize + 'px Courier New';
-            for(let i = 0; i < drops.length; i++) {
-                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
-                if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
-            }
-        }
-        setInterval(drawMatrix, 33);
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
-
         let images = Array.from(document.querySelectorAll('.lightbox-img'));
         let currentIndex = 0;
         const lightbox = document.getElementById('lightbox');
@@ -525,13 +499,13 @@
         const textContent = document.getElementById('textContent');
         
         function openText(fileUrl) {
-            textContent.innerText = ">_ SİSTEM BAĞLANTISI KURULUYOR...\n>_ VERİ İNDİRİLİYOR: " + fileUrl + "\n\nLütfen bekleyin...";
+            textContent.textContent = ">_ SİSTEM BAĞLANTISI KURULUYOR...\n>_ VERİ İNDİRİLİYOR: " + fileUrl + "\n\nLütfen bekleyin...";
             textModal.style.display = 'flex';
             
             fetch(fileUrl)
                 .then(response => { if (!response.ok) throw new Error("Dosya okunamadı."); return response.text(); })
                 .then(textData => { 
-                    textContent.innerText = textData; 
+                    textContent.textContent = textData; // innerText yerine textContent kullanıldı
                     if (fileUrl.endsWith('.java')) {
                         textContent.className = 'language-java';
                     } else {
@@ -541,12 +515,12 @@
                         Prism.highlightElement(textContent);
                     }
                 })
-                .catch(error => { textContent.innerText = "[HATA]: " + error.message; });
+                .catch(error => { textContent.textContent = "[HATA]: " + error.message; });
         }
-        function closeText() { textModal.style.display = 'none'; textContent.innerText = ""; }
+        function closeText() { textModal.style.display = 'none'; textContent.textContent = ""; }
 
         function copyText() {
-            const text = textContent.innerText;
+            const text = textContent.textContent;
             navigator.clipboard.writeText(text).then(() => {
                 const btn = document.getElementById('copyBtn');
                 btn.innerText = "✔️ [KOPYALANDI]";
@@ -567,7 +541,6 @@
         });
     </script>
     
-    <!-- PRISM.JS KOD RENKLENDİRME SCRİPTLERİ -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-java.min.js"></script>
 </body>
