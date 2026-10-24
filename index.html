@@ -60,7 +60,7 @@
             background-color: #050505; display: flex; align-items: center; justify-content: center;
             overflow: hidden; position: relative;
         }
-        .ad-slot::before { content: "[ REKLAM_ALANI ]"; position: absolute; color: rgba(46, 204, 64, 0.3); z-index: 0; }
+        .ad-slot::before { content: "[ REKLAM ]"; position: absolute; color: rgba(46, 204, 64, 0.3); z-index: 0; font-size: 0.8em; }
         .ad-slot img { width: 100%; height: 100%; object-fit: cover; z-index: 1; position: relative; }
 
         h1 {
@@ -150,16 +150,15 @@
 
         #textContent { color: var(--neon-green); font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; word-wrap: break-word; font-size: 1.05em; margin: 0; }
 
-        /* MOBİL UYUMLU KAPATMA BUTONU (Çakışma Önleyici) */
         .modal-btn { position: absolute; background: none; color: var(--neon-green); border: none; font-size: 3em; cursor: pointer; transition: 0.2s; z-index: 10000; }
         .modal-btn:hover { color: #fff; transform: scale(1.1); }
         
         .close-btn { 
             top: 15px !important; 
-            left: 20px !important; /* Sağı iptal edip SOL ÜSTE aldık ki Google butonuyla çakışmasın */
+            left: 20px !important; 
             right: auto !important; 
             padding: 5px 15px !important; 
-            background-color: var(--bg-dark); /* Arka planı koyulaştırdık */
+            background-color: var(--bg-dark); 
             border: 1px solid var(--neon-green);
             border-radius: 5px;
             font-size: 2.5em;
@@ -168,23 +167,43 @@
         #prevBtn { top: 50%; left: 20px; transform: translateY(-50%); font-size: 4em; }
         #nextBtn { top: 50%; right: 20px; transform: translateY(-50%); font-size: 4em; }
 
-        /* --- GELİŞTİRİLMİŞ MOBİL UYARLAMALAR --- */
+        /* --- YENİ: MOBİL ARAMA BUTONU VE OVERLAY --- */
+        #mobileSearchBtn {
+            display: none; position: fixed; bottom: 20px; right: 20px; background-color: #000;
+            color: var(--neon-green); border: 2px solid var(--neon-green); border-radius: 50%;
+            width: 60px; height: 60px; font-size: 24px; z-index: 9999;
+            box-shadow: 0 0 15px rgba(46, 204, 64, 0.5); cursor: pointer; text-align: center; line-height: 55px;
+        }
+        #searchOverlay {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); z-index: 10000; backdrop-filter: blur(5px);
+        }
+
+        /* --- MOBİL UYUMLULUK DÜZENLEMELERİ --- */
         @media (max-width: 900px) {
             .layout-wrapper { flex-direction: column; } 
             
-            /* İnce Çizgi Olma Sorununun Çözümü (flex-wrap ve esneme payı eklendi) */
-            .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; } 
-            .sidebar .panel { flex: 1 1 250px; box-sizing: border-box; } 
+            /* Reklamları Yan Yana Alma */
+            .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 10px; margin-bottom: -10px; } 
+            .sidebar .ad-panel { flex: 1 1 calc(50% - 10px); padding: 5px !important; box-sizing: border-box; } 
+            .ad-slot { height: 100px; } /* Mobilde daha ince reklamlar */
             
-            .ad-slot { height: 150px; } 
+            /* Sağ (Alt) Sidebar'ı ve Durum Kutusunu Gizleme */
             .status-box { display: none; }
+            .sidebar:last-child { display: none; } 
+
+            /* Arama Kutusunu Mobilde Pop-up Yapma */
+            #mobileSearchBtn { display: block; }
+            .search-panel { display: none; }
+            .mobile-search-active {
+                display: block !important; position: fixed !important; top: 80px; left: 5%; width: 90%;
+                z-index: 10001; padding: 15px !important; box-sizing: border-box;
+            }
         }
+        
         @media (max-width: 600px) {
-            .sidebar { flex-direction: column; } /* Dar ekranda tamamen alt alta */
             .file-item { flex-direction: column; align-items: flex-start; gap: 10px; }
             .file-actions { width: 100%; justify-content: flex-end; }
-            
-            /* Mobil Okuma Ekranlarını Tam Ekran Yapma ve Kapatma Butonuna Yer Açma */
             #docModal iframe { width: 95%; height: 85%; margin-top: 60px; }
             .text-container { width: 90%; height: 80%; margin-top: 60px; padding-top: 50px; }
             #lightbox img { margin-top: 60px; }
@@ -194,13 +213,18 @@
 </head>
 <body>
 
+    <!-- YENİ: Mobilde Çıkacak Arama Butonu ve Siyah Arkaplan -->
+    <div id="searchOverlay" onclick="toggleMobileSearch()"></div>
+    <div id="mobileSearchBtn" onclick="toggleMobileSearch()">🔍</div>
+
     <div class="layout-wrapper">
         <div class="sidebar">
-            <div class="panel">
+            <div class="panel search-panel">
                 <input type="text" id="searchInput" class="search-box" placeholder=">_ KLASÖR ARA...">
             </div>
-            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam1.jpg" alt=""></div></div>
-            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam2.jpg" alt=""></div></div>
+            <!-- Reklamlara ad-panel class'ı eklendi (Mobilde yan yana durmaları için) -->
+            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam1.jpg" alt=""></div></div>
+            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam2.jpg" alt=""></div></div>
         </div>
 
         <div class="panel main-content">
@@ -210,7 +234,6 @@
                 <summary>1. DÖNEM - Şu an Buradayız</summary>
                 <div class="folder-content">
                     
-                    <!-- 1. DERS: MATEMATİK -->
                     <details class="sub-folder">
                         <summary>MATEMATİK - I</summary>
                         <div class="folder-content">
@@ -291,7 +314,6 @@
                         </div>
                     </details>
 
-                    <!-- 4. DERS: AYRIK MATEMATİK -->
                     <details class="sub-folder">
                         <summary>AYRIK MATEMATİK</summary>
                         <div class="folder-content">
@@ -319,7 +341,6 @@
                         </div>
                     </details>
 
-                    <!-- 2. DERS: ALGORİTMA -->
                     <details class="sub-folder">
                         <summary>ALGORİTMA</summary>
                         <div class="folder-content">
@@ -372,7 +393,6 @@
                         </div>
                     </details>
 
-                    <!-- 3. DERS: YAZILIM MÜHENDİSLİĞİNE GİRİŞ -->
                     <details class="sub-folder">
                         <summary>YAZILIM MÜHENDİSLİĞİNE GİRİŞ</summary>
                         <div class="folder-content">
@@ -451,11 +471,9 @@
                         </div>
                     </details>
                     
-                    <!-- 5. DERS: FİZİK -->
                     <details class="sub-folder">
                         <summary>FİZİK - I</summary>
                         <div class="folder-content">
-                            
                             <div class="file-list">
                                 <div class="file-item">
                                     <span class="file-name"><i>[PDF]</i> Fizik Slayt</span>
@@ -465,7 +483,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </details>
 
@@ -530,6 +547,20 @@
     </div>
 
     <script>
+        // --- MOBİL ARAMA POP-UP FONKSİYONU ---
+        function toggleMobileSearch() {
+            const searchPanel = document.querySelector('.search-panel');
+            const overlay = document.getElementById('searchOverlay');
+            if (searchPanel.classList.contains('mobile-search-active')) {
+                searchPanel.classList.remove('mobile-search-active');
+                overlay.style.display = 'none';
+            } else {
+                searchPanel.classList.add('mobile-search-active');
+                overlay.style.display = 'block';
+                document.getElementById('searchInput').focus();
+            }
+        }
+
         const searchInput = document.getElementById('searchInput');
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
