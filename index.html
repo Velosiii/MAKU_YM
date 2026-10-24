@@ -30,7 +30,7 @@
             z-index: -1;
         }
 
-        /* --- SAYFA YERLEŞİMİ (KUSURSUZ 3 SÜTUN) --- */
+        /* --- SAYFA YERLEŞİMİ --- */
         .layout-wrapper {
             display: flex;
             justify-content: center;
@@ -54,7 +54,6 @@
             max-width: 800px;
         }
 
-        /* Ortak Panel Stili */
         .panel {
             background-color: var(--panel-bg);
             backdrop-filter: blur(4px);
@@ -64,7 +63,7 @@
             border-radius: 5px;
         }
 
-        /* --- SOL ÜST ARAMA ÇUBUĞU --- */
+        /* --- ARAMA ÇUBUĞU VE DURUM --- */
         .search-box {
             width: 100%;
             background-color: #000;
@@ -76,13 +75,9 @@
             outline: none;
             box-sizing: border-box;
             transition: 0.3s;
-            box-shadow: inset 0 0 5px rgba(57, 255, 20, 0.2);
         }
-        .search-box:focus {
-            box-shadow: 0 0 15px rgba(57, 255, 20, 0.5), inset 0 0 5px rgba(57, 255, 20, 0.2);
-        }
+        .search-box:focus { box-shadow: 0 0 15px rgba(57, 255, 20, 0.5), inset 0 0 5px rgba(57, 255, 20, 0.2); }
 
-        /* --- SAĞ ÜST SİMETRİ / DURUM KUTUSU --- */
         .status-box {
             width: 100%;
             color: var(--neon-green);
@@ -102,202 +97,143 @@
 
         /* --- REKLAM ALANLARI --- */
         .ad-slot {
-            width: 100%;
-            height: 250px;
-            border: 1px solid rgba(57, 255, 20, 0.5);
-            background-color: #050505;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            position: relative;
+            width: 100%; height: 250px; border: 1px solid rgba(57, 255, 20, 0.5);
+            background-color: #050505; display: flex; align-items: center; justify-content: center;
+            overflow: hidden; position: relative;
         }
-        .ad-slot::before {
-            content: "[ REKLAM_ALANI ]";
-            position: absolute;
-            color: rgba(57, 255, 20, 0.3);
-            font-size: 0.9em;
-            z-index: 0;
-        }
-        .ad-slot img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
-            position: relative;
-        }
+        .ad-slot::before { content: "[ REKLAM_ALANI ]"; position: absolute; color: rgba(57, 255, 20, 0.3); z-index: 0; }
+        .ad-slot img { width: 100%; height: 100%; object-fit: cover; z-index: 1; position: relative; }
 
-        /* --- KLASÖR VE ANA İÇERİK --- */
+        /* --- KLASÖRLER --- */
         h1 {
-            text-align: center;
-            text-transform: uppercase;
-            text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
-            border-bottom: 1px dashed var(--neon-green);
-            padding-bottom: 15px;
-            margin-top: 0;
-            margin-bottom: 30px;
+            text-align: center; text-transform: uppercase; text-shadow: 0 0 5px var(--neon-green), 0 0 10px var(--neon-green);
+            border-bottom: 1px dashed var(--neon-green); padding-bottom: 15px; margin-top: 0; margin-bottom: 30px;
         }
 
         details {
-            margin-bottom: 15px;
-            border: 1px solid rgba(57, 255, 20, 0.3);
-            padding: 10px;
-            border-radius: 5px;
+            margin-bottom: 15px; border: 1px solid rgba(57, 255, 20, 0.3); padding: 10px; border-radius: 5px;
             background: rgba(10, 10, 10, 0.9);
         }
         summary {
-            font-size: 1.2em;
-            font-weight: bold;
-            cursor: pointer;
-            outline: none;
-            text-shadow: 0 0 3px var(--neon-green);
+            font-size: 1.2em; font-weight: bold; cursor: pointer; outline: none; text-shadow: 0 0 3px var(--neon-green);
             list-style-type: "📁 ";
         }
         details[open] > summary {
-            list-style-type: "📂 ";
-            color: #fff;
-            border-bottom: 1px dashed rgba(57, 255, 20, 0.3);
-            padding-bottom: 10px;
-            margin-bottom: 10px;
+            list-style-type: "📂 "; color: #fff; border-bottom: 1px dashed rgba(57, 255, 20, 0.3);
+            padding-bottom: 10px; margin-bottom: 10px;
         }
-        summary:hover {
-            color: #fff;
-            text-shadow: 0 0 8px var(--neon-green);
-        }
+        summary:hover { color: #fff; text-shadow: 0 0 8px var(--neon-green); }
+        .folder-content { margin-left: 10px; border-left: 1px dashed rgba(57, 255, 20, 0.5); padding-left: 20px; }
+        details details { margin-bottom: 10px; border-color: rgba(57, 255, 20, 0.15); background: rgba(5, 5, 5, 0.9); }
 
-        .folder-content {
-            margin-left: 10px;
-            border-left: 1px dashed rgba(57, 255, 20, 0.5);
-            padding-left: 20px;
-        }
+        .gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; margin-top: 15px; margin-bottom: 15px; }
+        .gallery-item img { width: 100%; height: 120px; object-fit: cover; border: 1px solid var(--neon-green); cursor: pointer; opacity: 0.8; }
+        .gallery-item img:hover { transform: scale(1.05); box-shadow: 0 0 10px var(--neon-green); opacity: 1; }
 
-        details details {
-            margin-bottom: 10px;
-            border-color: rgba(57, 255, 20, 0.15);
-            background: rgba(5, 5, 5, 0.9);
-        }
-
-        /* --- FOTOĞRAF GALERİSİ --- */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-            gap: 15px;
-            margin-top: 15px;
-            margin-bottom: 15px;
-        }
-        .gallery-item img {
-            width: 100%;
-            height: 120px;
-            object-fit: cover;
-            border: 1px solid var(--neon-green);
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            opacity: 0.8;
-        }
-        .gallery-item img:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 10px var(--neon-green);
-            opacity: 1;
-        }
-
-        /* --- DOSYA BUTONLARI (GÖRÜNTÜLE VE İNDİR) --- */
-        .btn-group {
+        /* --- YENİ: DOSYA İSİM KUTUSU (LİSTE YAPISI) --- */
+        .file-list {
             display: flex;
+            flex-direction: column;
             gap: 10px;
-            margin: 5px 0;
-            flex-wrap: wrap;
+            margin-top: 15px;
         }
-        .file-link, .view-link {
-            display: inline-block;
-            color: var(--neon-green);
-            text-decoration: none;
-            padding: 6px 12px;
-            border: 1px solid var(--neon-green);
-            background: rgba(0,0,0,0.8);
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(5, 5, 5, 0.8);
+            border: 1px dashed rgba(57, 255, 20, 0.4);
+            padding: 10px 15px;
             transition: 0.3s;
-            font-size: 0.9em;
+        }
+        
+        .file-item:hover {
+            border-color: var(--neon-green);
+            box-shadow: inset 0 0 10px rgba(57, 255, 20, 0.1);
+        }
+        
+        .file-name {
+            color: #fff;
+            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-name i {
+            color: var(--neon-green);
+            font-style: normal;
+        }
+
+        .file-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        /* --- DOSYA BUTONLARI --- */
+        .file-link, .view-link {
+            display: inline-block; color: var(--neon-green); text-decoration: none; padding: 6px 12px;
+            border: 1px solid var(--neon-green); background: rgba(0,0,0,0.8); transition: 0.3s; font-size: 0.85em;
         }
         .file-link:before { content: "💾 "; }
-        
         .view-link.pdf-btn { border-color: #ff3939; color: #ff3939; }
-        .view-link.pdf-btn:before { content: "📄 [PDF AÇ] "; font-weight: bold; }
+        .view-link.pdf-btn:before { content: "📄 [AÇ] "; font-weight: bold; }
         .view-link.pdf-btn:hover { background-color: #ff3939; color: #000; box-shadow: 0 0 10px #ff3939; }
 
         .view-link.slide-btn { border-color: #39aeff; color: #39aeff; }
-        .view-link.slide-btn:before { content: "📊 [SLAYT AÇ] "; font-weight: bold; }
+        .view-link.slide-btn:before { content: "📊 [AÇ] "; font-weight: bold; }
         .view-link.slide-btn:hover { background-color: #39aeff; color: #000; box-shadow: 0 0 10px #39aeff; }
 
-        .file-link:hover {
-            color: #000;
-            background-color: var(--neon-green);
-            box-shadow: 0 0 10px var(--neon-green);
-        }
+        .view-link.code-btn { border-color: #ff8c00; color: #ff8c00; }
+        .view-link.code-btn:before { content: "💻 [AÇ] "; font-weight: bold; }
+        .view-link.code-btn:hover { background-color: #ff8c00; color: #000; box-shadow: 0 0 10px #ff8c00; }
 
-        /* --- TAM EKRAN FOTOĞRAF VE BELGE (MODAL) EKRANLARI --- */
-        #lightbox, #docModal {
-            display: none;
-            position: fixed;
-            z-index: 9999;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background-color: rgba(0, 0, 0, 0.95);
-            align-items: center;
-            justify-content: center;
-        }
-        #lightbox img {
-            max-width: 85%;
-            max-height: 85%;
-            border: 2px solid var(--neon-green);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
-        }
-        #docModal iframe {
-            width: 85%;
-            height: 85%;
-            border: 2px solid var(--neon-green);
-            box-shadow: 0 0 30px rgba(57, 255, 20, 0.5);
-            background-color: #fff;
-        }
+        .view-link.text-btn { border-color: #00ffff; color: #00ffff; }
+        .view-link.text-btn:before { content: "📝 [AÇ] "; font-weight: bold; }
+        .view-link.text-btn:hover { background-color: #00ffff; color: #000; box-shadow: 0 0 10px #00ffff; }
 
-        .modal-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            color: var(--neon-green);
-            border: none;
-            font-size: 4em;
-            cursor: pointer;
-            text-shadow: 0 0 10px var(--neon-green);
-            padding: 20px;
-            user-select: none;
-            transition: 0.2s;
+        .file-link:hover { color: #000; background-color: var(--neon-green); box-shadow: 0 0 10px var(--neon-green); }
+
+        /* --- MODAL PENCERELERİ (ARAYÜZLER) --- */
+        #lightbox, #docModal, #textModal {
+            display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center;
         }
-        .modal-btn:hover { color: #fff; transform: translateY(-50%) scale(1.2); }
-        #prevBtn { left: 20px; }
-        #nextBtn { right: 20px; }
+        #lightbox img { max-width: 85%; max-height: 85%; border: 2px solid var(--neon-green); box-shadow: 0 0 30px rgba(57, 255, 20, 0.5); }
+        #docModal iframe { width: 85%; height: 85%; border: 2px solid var(--neon-green); background-color: #fff; }
         
-        .close-btn {
-            position: absolute;
-            top: 20px !important;
-            right: 30px !important;
-            transform: none !important;
-            font-size: 3em;
-            padding: 10px;
+        .text-container {
+            width: 80%; height: 80%; background-color: #050505; border: 2px solid var(--neon-green);
+            box-shadow: 0 0 30px rgba(57, 255, 20, 0.2), inset 0 0 15px rgba(57, 255, 20, 0.1);
+            padding: 40px 20px 20px 20px; overflow-y: auto; position: relative;
         }
-        .close-btn:hover { transform: scale(1.2) !important; }
+        
+        /* YENİ: KOPYALA BUTONU */
+        #copyBtn {
+            position: absolute; top: 10px; right: 20px; background-color: #000; color: var(--neon-green);
+            border: 1px dashed var(--neon-green); padding: 5px 10px; font-family: 'Courier New', Courier, monospace;
+            font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9em;
+        }
+        #copyBtn:hover { background-color: var(--neon-green); color: #000; }
 
+        #textContent { color: var(--neon-green); font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; word-wrap: break-word; font-size: 1.1em; margin: 0; }
+
+        .modal-btn { position: absolute; background: none; color: var(--neon-green); border: none; font-size: 3em; cursor: pointer; text-shadow: 0 0 10px var(--neon-green); transition: 0.2s; z-index: 10000; }
+        .modal-btn:hover { color: #fff; transform: scale(1.2); }
+        .close-btn { top: 20px; right: 30px; padding: 10px; }
+        #prevBtn { top: 50%; left: 20px; transform: translateY(-50%); font-size: 4em; }
+        #nextBtn { top: 50%; right: 20px; transform: translateY(-50%); font-size: 4em; }
         .cursor { display: inline-block; width: 10px; height: 20px; background-color: var(--neon-green); animation: blink 1s step-end infinite; vertical-align: text-bottom; }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
-        /* Mobil Tasarım */
         @media (max-width: 900px) {
-            .layout-wrapper { flex-direction: column; }
-            .sidebar { width: 100%; flex-direction: row; }
-            .ad-slot { height: 150px; }
-            .status-box { display: none; }
+            .layout-wrapper { flex-direction: column; } .sidebar { width: 100%; flex-direction: row; }
+            .ad-slot { height: 150px; } .status-box { display: none; }
         }
         @media (max-width: 600px) {
-            .sidebar { flex-direction: column; }
+            .file-item { flex-direction: column; align-items: flex-start; gap: 10px; }
+            .file-actions { width: 100%; justify-content: flex-end; }
         }
     </style>
 </head>
@@ -306,20 +242,14 @@
     <canvas id="matrixCanvas"></canvas>
 
     <div class="layout-wrapper">
-        <!-- SOL KENAR -->
         <div class="sidebar">
             <div class="panel">
                 <input type="text" id="searchInput" class="search-box" placeholder=">_ KLASÖR ARA...">
             </div>
-            <div class="panel" style="padding: 10px;">
-                <div class="ad-slot"><img src="reklam1.jpg" alt=""></div>
-            </div>
-            <div class="panel" style="padding: 10px;">
-                <div class="ad-slot"><img src="reklam2.jpg" alt=""></div>
-            </div>
+            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam1.jpg" alt=""></div></div>
+            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam2.jpg" alt=""></div></div>
         </div>
 
-        <!-- ANA İÇERİK -->
         <div class="panel main-content">
             <h1>[ Makü Yazılım Mühendisliği Arşivi ]<span class="cursor"></span></h1>
 
@@ -334,14 +264,24 @@
                                 <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
                                 <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
                             </div>
-                            <div class="btn-group">
-                                <!-- BURASI GOOGLE DRIVE ENTEGRASYONUNA GÖRE GÜNCELLENDİ -->
-                                <!-- 1. PDF Olarak Sistemde Görüntüle (/preview) -->
-                                <a href="javascript:void(0)" onclick="openDoc('https://drive.google.com/file/d/1KZVGgWBExImX9xH4SsykwvQqFPZZm-S-/preview', 'pdf')" class="view-link pdf-btn">Drive PDF Aç</a>
-                                
-                                <!-- 2. Direkt Dosya İndir (export=download) -->
-                                <a href="https://drive.google.com/uc?export=download&id=1KZVGgWBExImX9xH4SsykwvQqFPZZm-S-" class="file-link" target="_blank">Drive'dan İndir</a>
+                            
+                            <!-- YENİ: DOSYA İSİM KUTUSU LİSTESİ -->
+                            <div class="file-list">
+                                <div class="file-item">
+                                    <span class="file-name"><i>[PDF]</i> 1. Dönem Final Özeti (Drive)</span>
+                                    <div class="file-actions">
+                                        <a href="javascript:void(0)" onclick="openDoc('https://drive.google.com/file/d/1KZVGgWBExImX9xH4SsykwvQqFPZZm-S-/preview', 'pdf')" class="view-link pdf-btn"></a>
+                                        <a href="https://drive.google.com/uc?export=download&id=1KZVGgWBExImX9xH4SsykwvQqFPZZm-S-" class="file-link" target="_blank">İNDİR</a>
+                                    </div>
+                                </div>
+                                <div class="file-item">
+                                    <span class="file-name"><i>[ZIP]</i> Dönem İçi Tüm Notlar Arşivi</span>
+                                    <div class="file-actions">
+                                        <a href="matematik_1_donem_ozet.zip" class="file-link" download>ARŞİVİ İNDİR</a>
+                                    </div>
+                                </div>
                             </div>
+
                         </div>
                     </details>
 
@@ -350,26 +290,25 @@
                         <div class="folder-content">
                             <div class="gallery">
                                 <div class="gallery-item"><img src="mat1.jpg" alt="Matematik 1" class="lightbox-img"></div>
-                                <div class="gallery-item"><img src="mat2.jpg" alt="Matematik 2" class="lightbox-img"></div>
                             </div>
-                            <div class="btn-group">
-                                <a href="javascript:void(0)" onclick="openDoc('ayrik_mat_final.pdf', 'pdf')" class="view-link pdf-btn">Final Notları</a>
-                                <a href="javascript:void(0)" onclick="openDoc('ayrik_mat_sunum.pptx', 'slide')" class="view-link slide-btn">Ders Sunumu</a>
-                                <a href="ayrik_mat_notlar.zip" class="file-link" download>Ders Notları .ZIP</a>
+                            
+                            <div class="file-list">
+                                <div class="file-item">
+                                    <span class="file-name"><i>[PDF]</i> Vize ve Final Konuları</span>
+                                    <div class="file-actions">
+                                        <a href="javascript:void(0)" onclick="openDoc('ayrik_mat_final.pdf', 'pdf')" class="view-link pdf-btn"></a>
+                                        <a href="ayrik_mat_final.pdf" class="file-link" download>İNDİR</a>
+                                    </div>
+                                </div>
+                                <div class="file-item">
+                                    <span class="file-name"><i>[PPTX]</i> Graf Teorisi Sunumu</span>
+                                    <div class="file-actions">
+                                        <a href="javascript:void(0)" onclick="openDoc('ayrik_mat_sunum.pptx', 'slide')" class="view-link slide-btn"></a>
+                                        <a href="ayrik_mat_sunum.pptx" class="file-link" download>İNDİR</a>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </details>
-                    
-                    <details class="sub-folder">
-                        <summary>FİZİK</summary>
-                        <div class="folder-content">
-                            <div class="gallery">
-                                <div class="gallery-item"><img src="fizik1.jpg" alt="Fizik 1" class="lightbox-img"></div>
-                            </div>
-                            <div class="btn-group">
-                                <a href="javascript:void(0)" onclick="openDoc('fizik_deney_raporu.pdf', 'pdf')" class="view-link pdf-btn">Deney Raporu</a>
-                                <a href="fizik_deney_raporu.pdf" class="file-link" download>Deney Raporu İndir (.PDF)</a>
-                            </div>
+
                         </div>
                     </details>
                 </div>
@@ -378,15 +317,29 @@
             <details class="main-folder">
                 <summary>2. DÖNEM</summary>
                 <div class="folder-content">
-                    <details class="sub-folder">
-                        <summary>KİMYA</summary>
+                    
+                    <details class="sub-folder" open>
+                        <summary>NESNEYE YÖNELİK PROGRAMLAMA (JAVA)</summary>
                         <div class="folder-content">
-                            <div class="gallery">
-                                <div class="gallery-item"><img src="kimya1.jpg" alt="Kimya 1" class="lightbox-img"></div>
-                                <div class="gallery-item"><img src="kimya2.jpg" alt="Kimya 2" class="lightbox-img"></div>
+                            <div class="file-list">
+                                <div class="file-item">
+                                    <span class="file-name"><i>[JAVA]</i> Ana Sınıf (Main.java)</span>
+                                    <div class="file-actions">
+                                        <a href="javascript:void(0)" onclick="openText('Main.java')" class="view-link code-btn"></a>
+                                        <a href="Main.java" class="file-link" download>İNDİR</a>
+                                    </div>
+                                </div>
+                                <div class="file-item">
+                                    <span class="file-name"><i>[TXT]</i> OOP Ders Notları</span>
+                                    <div class="file-actions">
+                                        <a href="javascript:void(0)" onclick="openText('notlar.txt')" class="view-link text-btn"></a>
+                                        <a href="notlar.txt" class="file-link" download>İNDİR</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </details>
+
                 </div>
             </details>
 
@@ -395,21 +348,14 @@
             </div>
         </div>
 
-        <!-- SAĞ KENAR -->
         <div class="sidebar">
-            <div class="panel">
-                <div class="status-box">[ He He He ]</div>
-            </div>
-            <div class="panel" style="padding: 10px;">
-                <div class="ad-slot"><img src="reklam3.jpg" alt=""></div>
-            </div>
-            <div class="panel" style="padding: 10px;">
-                <div class="ad-slot"><img src="reklam4.jpg" alt=""></div>
-            </div>
+            <div class="panel"><div class="status-box">[ He He He ]</div></div>
+            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam3.jpg" alt=""></div></div>
+            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam4.jpg" alt=""></div></div>
         </div>
     </div>
 
-    <!-- LIGHTBOX (GÖRSELLER İÇİN) -->
+    <!-- LIGHTBOX -->
     <div id="lightbox">
         <button id="closeBtn" class="modal-btn close-btn" onclick="closeLightbox()">×</button>
         <button id="prevBtn" class="modal-btn" onclick="changeImage(-1)">&#10094;</button>
@@ -417,10 +363,19 @@
         <button id="nextBtn" class="modal-btn" onclick="changeImage(1)">&#10095;</button>
     </div>
 
-    <!-- BELGE OKUYUCU MODALI (PDF VE SLAYTLAR İÇİN) -->
+    <!-- BELGE (PDF/SLAYT) MODALI -->
     <div id="docModal">
         <button class="modal-btn close-btn" onclick="closeDoc()">×</button>
         <iframe id="docIframe" src=""></iframe>
+    </div>
+
+    <!-- METİN / KOD OKUYUCU MODALI -->
+    <div id="textModal">
+        <button class="modal-btn close-btn" onclick="closeText()">×</button>
+        <div class="text-container">
+            <button id="copyBtn" onclick="copyText()">📋 [KOPYALA]</button>
+            <pre id="textContent">VERİ YÜKLENİYOR...</pre>
+        </div>
     </div>
 
     <script>
@@ -429,33 +384,20 @@
         searchInput.addEventListener('input', function(e) {
             const query = e.target.value.toLowerCase();
             const mainFolders = document.querySelectorAll('.main-folder');
-
             mainFolders.forEach(main => {
                 let mainHasMatch = false;
-                const mainSummaryText = main.querySelector('summary').innerText.toLowerCase();
-                const mainMatches = mainSummaryText.includes(query);
+                const mainMatches = main.querySelector('summary').innerText.toLowerCase().includes(query);
                 const subFolders = main.querySelectorAll('.sub-folder');
-                
                 subFolders.forEach(sub => {
-                    const subSummaryText = sub.querySelector('summary').innerText.toLowerCase();
-                    if (subSummaryText.includes(query) || mainMatches) {
-                        sub.style.display = 'block';
-                        mainHasMatch = true;
-                    } else {
-                        sub.style.display = 'none';
-                    }
+                    if (sub.querySelector('summary').innerText.toLowerCase().includes(query) || mainMatches) {
+                        sub.style.display = 'block'; mainHasMatch = true;
+                    } else { sub.style.display = 'none'; }
                 });
-
                 if (query !== '') {
-                    if (mainHasMatch || mainMatches) {
-                        main.style.display = 'block';
-                        main.open = true;
-                    } else {
-                        main.style.display = 'none';
-                    }
+                    if (mainHasMatch || mainMatches) { main.style.display = 'block'; main.open = true; } 
+                    else { main.style.display = 'none'; }
                 } else {
-                    main.style.display = 'block';
-                    main.open = false;
+                    main.style.display = 'block'; main.open = false;
                     subFolders.forEach(sub => sub.style.display = 'block');
                 }
             });
@@ -464,89 +406,82 @@
         // --- MATRIX EFEKTİ ---
         const canvas = document.getElementById('matrixCanvas');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*YORHAVELOSI'.split('');
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = [];
+        const fontSize = 14; const columns = canvas.width / fontSize; const drops = [];
         for(let x = 0; x < columns; x++) drops[x] = 1;
-
         function drawMatrix() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#39ff14';
-            ctx.font = fontSize + 'px Courier New';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#39ff14'; ctx.font = fontSize + 'px Courier New';
             for(let i = 0; i < drops.length; i++) {
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, drops[i] * fontSize);
                 if(drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
                 drops[i]++;
             }
         }
         setInterval(drawMatrix, 33);
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
-        // --- LIGHTBOX (RESİMLER İÇİN) ---
+        // --- LIGHTBOX ---
         let images = Array.from(document.querySelectorAll('.lightbox-img'));
         let currentIndex = 0;
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
-
-        images.forEach((img, index) => {
-            img.addEventListener('click', function() {
-                currentIndex = index;
-                showLightbox();
-            });
-        });
-
-        function showLightbox() {
-            lightboxImg.src = images[currentIndex].src;
-            lightbox.style.display = 'flex';
-        }
-        function closeLightbox() {
-            lightbox.style.display = 'none';
-        }
-        function changeImage(direction) {
-            currentIndex += direction;
+        images.forEach((img, index) => { img.addEventListener('click', () => { currentIndex = index; showLightbox(); }); });
+        function showLightbox() { lightboxImg.src = images[currentIndex].src; lightbox.style.display = 'flex'; }
+        function closeLightbox() { lightbox.style.display = 'none'; }
+        function changeImage(dir) {
+            currentIndex += dir;
             if (currentIndex >= images.length) currentIndex = 0;
             else if (currentIndex < 0) currentIndex = images.length - 1;
             lightboxImg.src = images[currentIndex].src;
         }
 
-        // --- BELGE OKUYUCU (PDF VE SLAYTLAR İÇİN) ---
+        // --- BELGE OKUYUCU (PDF/SLAYT) ---
         const docModal = document.getElementById('docModal');
         const docIframe = document.getElementById('docIframe');
-
         function openDoc(docUrl, type) {
             if (type === 'slide') {
                 const absoluteUrl = window.location.href.substring(0, window.location.href.lastIndexOf('/')) + '/' + docUrl;
                 docIframe.src = `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
-            } 
-            else if (type === 'pdf') {
-                docIframe.src = docUrl;
-            }
-            
+            } else if (type === 'pdf') { docIframe.src = docUrl; }
             docModal.style.display = 'flex';
         }
+        function closeDoc() { docModal.style.display = 'none'; docIframe.src = ''; }
 
-        function closeDoc() {
-            docModal.style.display = 'none';
-            docIframe.src = '';
+        // --- METİN/KOD OKUYUCU (JAVA/TXT) ---
+        const textModal = document.getElementById('textModal');
+        const textContent = document.getElementById('textContent');
+        function openText(fileUrl) {
+            textContent.innerText = ">_ SİSTEM BAĞLANTISI KURULUYOR...\n>_ VERİ İNDİRİLİYOR: " + fileUrl + "\n\nLütfen bekleyin...";
+            textModal.style.display = 'flex';
+            fetch(fileUrl)
+                .then(response => { if (!response.ok) throw new Error("Dosya okunamadı."); return response.text(); })
+                .then(textData => { textContent.innerText = textData; })
+                .catch(error => { textContent.innerText = "[HATA]: " + error.message; });
+        }
+        function closeText() { textModal.style.display = 'none'; textContent.innerText = ""; }
+
+        // --- YENİ: KOPYALA BUTONU İŞLEVİ ---
+        function copyText() {
+            const text = textContent.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = "✔️ [KOPYALANDI]";
+                setTimeout(() => { btn.innerText = "📋 [KOPYALA]"; }, 2000);
+            });
         }
 
-        // --- KLAVYE KISAYOLLARI ---
+        // --- KLAVYE KONTROLLERİ ---
         document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (lightbox.style.display === 'flex') closeLightbox();
+                if (docModal.style.display === 'flex') closeDoc();
+                if (textModal.style.display === 'flex') closeText();
+            }
             if (lightbox.style.display === 'flex') {
-                if (e.key === 'Escape') closeLightbox();
                 if (e.key === 'ArrowRight') changeImage(1);
                 if (e.key === 'ArrowLeft') changeImage(-1);
-            }
-            if (docModal.style.display === 'flex') {
-                if (e.key === 'Escape') closeDoc();
             }
         });
     </script>
