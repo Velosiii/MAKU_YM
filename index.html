@@ -7,7 +7,7 @@
     <style>
         :root {
             --neon-green: #2ecc40; 
-            --bg-dark: #050505; /* Arkaplanı tam siyah yerine çok koyu gri yaptık, daha şık durur */
+            --bg-dark: #050505; 
             --panel-bg: rgba(17, 17, 17, 0.85);
         }
 
@@ -148,7 +148,6 @@
         }
         #copyBtn:hover { background-color: var(--neon-green); color: #000; }
 
-        /* white-space: pre-wrap satır atlamalarını korumayı sağlar */
         #textContent { color: var(--neon-green); font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; word-wrap: break-word; font-size: 1.05em; margin: 0; }
 
         .modal-btn { position: absolute; background: none; color: var(--neon-green); border: none; font-size: 3em; cursor: pointer; transition: 0.2s; z-index: 10000; }
@@ -182,18 +181,18 @@
         <div class="panel main-content">
             <h1>[ Makü Yazılım Mühendisliği Arşivi ]</h1>
 
-            <details class="main-folder">
+            <details class="main-folder" open>
                 <summary>1. DÖNEM - Şu an Buradayız</summary>
                 <div class="folder-content">
                     
-                    <details class="sub-folder" open>
+                    <!-- 1. DERS: MATEMATİK -->
+                    <details class="sub-folder">
                         <summary>MATEMATİK</summary>
                         <div class="folder-content">
                             
                             <details class="sub-folder photo-folder">
                                 <summary style="list-style-type: '📷 '; color: #fff;">DERS FOTOĞRAFLARI (1-14 HAFTA)</summary>
                                 <div class="folder-content">
-                                    
                                     <details class="sub-folder week-folder">
                                         <summary>1. Hafta</summary>
                                         <div class="folder-content">
@@ -203,28 +202,6 @@
                                             </div>
                                         </div>
                                     </details>
-
-                                    <details class="sub-folder week-folder">
-                                        <summary>2. Hafta</summary>
-                                        <div class="folder-content">
-                                            <div class="gallery">
-                                            </div>
-                                        </div>
-                                    </details>
-                                    
-                                    <details class="sub-folder week-folder"><summary>3. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>4. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>5. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>6. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>7. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>8. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>9. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>10. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>11. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>12. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>13. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-                                    <details class="sub-folder week-folder"><summary>14. Hafta</summary><div class="folder-content"><div class="gallery"></div></div></details>
-
                                 </div>
                             </details>
 
@@ -247,9 +224,11 @@
                         </div>
                     </details>
 
+                    <!-- 2. DERS: ALGORİTMA -->
                     <details class="sub-folder">
                         <summary>ALGORİTMA</summary>
                         <div class="folder-content">
+                            
                             <details class="sub-folder week-folder">
                                 <summary>5. Hafta Uygulamaları</summary>
                                 <div class="folder-content">
@@ -285,28 +264,15 @@
                                     </div>
                                 </div>
                             </details>
-                            <div class="file-list">
-                                <div class="file-item">
-                                    <span class="file-name"><i>[JAVA]</i> Daire (Daire.java)</span>
-                                    <div class="file-actions">
-                                        <a href="javascript:void(0)" onclick="openText('1.Dönem/Algoritma/5.Hafta Uygulamaları/Daire.java')" class="view-link code-btn"></a>
-                                        <a href="1.Dönem/Algoritma/5.Hafta Uygulamaları/Daire.java" class="file-link" download>İNDİR</a>
-                                    </div>
-                                </div>
-                                <div class="file-item">
-                                    <span class="file-name"><i>[JAVA]</i> Daire Terminal (DaireTerminal.java)</span>
-                                    <div class="file-actions">
-                                        <a href="javascript:void(0)" onclick="openText('1.Dönem/Algoritma/5.Hafta Uygulamaları/DaireTerminal.java')" class="view-link code-btn"></a>
-                                        <a href="1.Dönem/Algoritma/5.Hafta Uygulamaları/DaireTerminal.java" class="file-link" download>İNDİR</a>
-                                    </div>
-                                </div>
-                            </div>
+
                         </div>
                     </details>
 
+                    <!-- 3. DERS: YAZILIM MÜHENDİSLİĞİNE GİRİŞ -->
                     <details class="sub-folder">
                         <summary>YAZILIM MÜHENDİSLİĞİNE GİRİŞ</summary>
                         <div class="folder-content">
+                            
                             <details class="sub-folder slayt-folder">
                                 <summary>Ders Slaytları</summary>
                                 <div class="folder-content">
@@ -342,13 +308,15 @@
                                     </div>
                                 </div>
                             </details>
-                            </div>
+
                         </div>
                     </details>
 
+                    <!-- 4. DERS: AYRIK MATEMATİK -->
                     <details class="sub-folder">
                         <summary>AYRIK MATEMATİK</summary>
                         <div class="folder-content">
+                            
                             <details class="sub-folder photo-folder">
                                 <summary style="list-style-type: '📷 '; color: #fff;">DERS FOTOĞRAFLARI (1-14 HAFTA)</summary>
                                 <div class="folder-content">
@@ -368,6 +336,7 @@
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                     </details>
                 </div>
@@ -489,7 +458,7 @@
             fetch(fileUrl)
                 .then(response => { if (!response.ok) throw new Error("Dosya okunamadı."); return response.text(); })
                 .then(textData => { 
-                    textContent.textContent = textData; // innerText yerine textContent kullanıldı
+                    textContent.textContent = textData; 
                     if (fileUrl.endsWith('.java')) {
                         textContent.className = 'language-java';
                     } else {
