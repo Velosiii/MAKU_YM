@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr"> 
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -183,10 +183,13 @@
         @media (max-width: 900px) {
             .layout-wrapper { flex-direction: column; } 
             
-            /* Reklamları Yan Yana Alma */
+            /* Reklamları Yan Yana Alma ve Kare Yapma */
             .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 10px; margin-bottom: -10px; } 
             .sidebar .ad-panel { flex: 1 1 calc(50% - 10px); padding: 5px !important; box-sizing: border-box; } 
-            .ad-slot { height: 100px; } /* Mobilde daha ince reklamlar */
+            .ad-slot { 
+                height: auto; 
+                aspect-ratio: 1 / 1; /* Kutuyu tam 1:1 oranında kare yapar */
+            } 
             
             /* Sağ (Alt) Sidebar'ı ve Durum Kutusunu Gizleme */
             .status-box { display: none; }
