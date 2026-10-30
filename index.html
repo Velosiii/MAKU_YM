@@ -167,7 +167,6 @@
         #prevBtn { top: 50%; left: 20px; transform: translateY(-50%); font-size: 4em; }
         #nextBtn { top: 50%; right: 20px; transform: translateY(-50%); font-size: 4em; }
 
-        /* --- YENİ: MOBİL ARAMA BUTONU VE OVERLAY --- */
         #mobileSearchBtn {
             display: none; position: fixed; bottom: 20px; right: 20px; background-color: #000;
             color: var(--neon-green); border: 2px solid var(--neon-green); border-radius: 50%;
@@ -179,20 +178,26 @@
             background: rgba(0,0,0,0.85); z-index: 10000; backdrop-filter: blur(5px);
         }
 
-        /* --- YENİ: AJAN POPUP CSS --- */
-        #agentModal {
+        /* --- MANIFEST POPUP CSS --- */
+        #manifestModal {
             display: flex; position: fixed; z-index: 10005; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; backdrop-filter: blur(5px);
         }
-        .agent-content {
+        .manifest-content {
             background-color: var(--bg-dark); border: 2px dashed var(--neon-green);
-            box-shadow: 0 0 40px rgba(46, 204, 64, 0.3); padding: 50px 30px; text-align: center;
+            box-shadow: 0 0 40px rgba(46, 204, 64, 0.3); padding: 40px; text-align: center;
             position: relative; max-width: 90%;
         }
-        #agentCloseBtn {
-            display: none; /* İlk başta gizli, 5sn sonra açılacak */
-            top: 10px !important; left: auto !important; right: 10px !important;
-            font-size: 2em; padding: 5px 15px !important; border-radius: 5px;
+        .manifest-buttons {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px;
+        }
+        .manifest-buttons button {
+            background: #000; color: var(--neon-green); border: 1px solid var(--neon-green);
+            padding: 10px 20px; font-family: 'Courier New', Courier, monospace; font-size: 1.1em;
+            font-weight: bold; cursor: pointer; transition: 0.3s; border-radius: 5px;
+        }
+        .manifest-buttons button:hover {
+            background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.1);
         }
 
         /* --- MOBİL UYUMLULUK DÜZENLEMELERİ --- */
@@ -223,17 +228,25 @@
 </head>
 <body>
 
-    <!-- YENİ: AJAN POPUP VE SES DOSYASI -->
-    <!-- Kendi ses dosyanın ismini "ses.mp3" olarak değiştir veya alttaki kodu kendi dosya adına göre güncelle -->
-    <audio id="agentAudio" src="ses.mp3" preload="auto"></audio>
-    <div id="agentModal">
-        <div class="agent-content">
-            <button id="agentCloseBtn" class="modal-btn close-btn" onclick="closeAgentModal()">×</button>
-            <h2>>_ Sınıfta ajan varmış, Vaybe!!!</h2>
+    <!-- MANIFEST POPUP VE SES DOSYALARI -->
+    <audio id="successAudio" src="ses.mp3" preload="auto"></audio>
+    <audio id="failAudio" src="ses2.mp3" preload="auto"></audio>
+
+    <div id="manifestModal">
+        <div class="manifest-content">
+            <h2>>_ En iyi manifest üyesi kim?</h2>
+            <div class="manifest-buttons">
+                <button onclick="wrongAnswer()">Hilal</button>
+                <button onclick="wrongAnswer()">Esin</button>
+                <button onclick="wrongAnswer()">Mina</button>
+                <button onclick="rightAnswer()">Zoktay</button>
+                <button onclick="wrongAnswer()">Sueda</button>
+                <button onclick="wrongAnswer()">Lidya</button>
+            </div>
         </div>
     </div>
 
-    <!-- YENİ: Mobilde Çıkacak Arama Butonu ve Siyah Arkaplan -->
+    <!-- Mobilde Çıkacak Arama Butonu ve Siyah Arkaplan -->
     <div id="searchOverlay" onclick="toggleMobileSearch()"></div>
     <div id="mobileSearchBtn" onclick="toggleMobileSearch()">🔍</div>
 
@@ -242,7 +255,6 @@
             <div class="panel search-panel">
                 <input type="text" id="searchInput" class="search-box" placeholder=">_ KLASÖR ARA...">
             </div>
-            <!-- Reklamlara ad-panel class'ı eklendi (Mobilde yan yana durmaları için) -->
             <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/1.png" alt=""></div></div>
             <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/2.jpeg" alt=""></div></div>
         </div>
@@ -611,17 +623,26 @@
     </div>
 
     <script>
-        // --- YENİ: AJAN POPUP KONTROLÜ ---
-        window.addEventListener('load', function() {
-            setTimeout(function() {
-                document.getElementById('agentCloseBtn').style.display = 'block';
-            }, 5000);
-        });
+        // --- MANIFEST POPUP KONTROLÜ ---
+        function rightAnswer() {
+            document.getElementById('manifestModal').style.display = 'none';
+            const audio = document.getElementById('successAudio');
+            audio.play().catch(e => console.log(e));
+        }
 
-        function closeAgentModal() {
-            document.getElementById('agentModal').style.display = 'none';
-            const audio = document.getElementById('agentAudio');
-            audio.play().catch(e => console.log("Otomatik ses çalma engellendi: " + e));
+        function wrongAnswer() {
+            document.getElementById('manifestModal').style.display = 'none';
+            const audio = document.getElementById('failAudio');
+            
+            // Yanlış cevaba basılınca tüm siteyi ez ve kırmızı imha ekranına çevir
+            document.body.innerHTML = "<div style='display:flex; justify-content:center; align-items:center; height:100vh; background:#000; color:red; font-size:2em; font-family:Courier New, monospace; text-shadow:0 0 20px red; text-align:center; flex-direction:column; margin:0;'><h1>>_ YANLIŞ CEVAP</h1><p>SİSTEM İMHA EDİLDİ.</p></div>";
+
+            audio.play().catch(e => console.log(e));
+            
+            // Ses bittiğinde kişiyi boş, geri dönülemez sayfaya sürgün et
+            audio.onended = function() {
+                window.location.replace("about:blank");
+            };
         }
 
         // --- MOBİL ARAMA POP-UP FONKSİYONU ---
