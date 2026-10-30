@@ -179,23 +179,30 @@
             background: rgba(0,0,0,0.85); z-index: 10000; backdrop-filter: blur(5px);
         }
 
+        /* --- YENİ: AJAN POPUP CSS --- */
+        #agentModal {
+            display: flex; position: fixed; z-index: 10005; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; backdrop-filter: blur(5px);
+        }
+        .agent-content {
+            background-color: var(--bg-dark); border: 2px dashed var(--neon-green);
+            box-shadow: 0 0 40px rgba(46, 204, 64, 0.3); padding: 50px 30px; text-align: center;
+            position: relative; max-width: 90%;
+        }
+        #agentCloseBtn {
+            display: none; /* İlk başta gizli, 5sn sonra açılacak */
+            top: 10px !important; left: auto !important; right: 10px !important;
+            font-size: 2em; padding: 5px 15px !important; border-radius: 5px;
+        }
+
         /* --- MOBİL UYUMLULUK DÜZENLEMELERİ --- */
         @media (max-width: 900px) {
             .layout-wrapper { flex-direction: column; } 
-            
-            /* Reklamları Yan Yana Alma ve Kare Yapma */
             .sidebar { width: 100%; flex-direction: row; flex-wrap: wrap; gap: 10px; margin-bottom: -10px; } 
             .sidebar .ad-panel { flex: 1 1 calc(50% - 10px); padding: 5px !important; box-sizing: border-box; } 
-            .ad-slot { 
-                height: auto; 
-                aspect-ratio: 1 / 1; /* Kutuyu tam 1:1 oranında kare yapar */
-            } 
-            
-            /* Sağ (Alt) Sidebar'ı ve Durum Kutusunu Gizleme */
+            .ad-slot { height: auto; aspect-ratio: 1 / 1; } 
             .status-box { display: none; }
             .sidebar:last-child { display: none; } 
-
-            /* Arama Kutusunu Mobilde Pop-up Yapma */
             #mobileSearchBtn { display: block; }
             .search-panel { display: none; }
             .mobile-search-active {
@@ -215,6 +222,16 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-twilight.min.css" rel="stylesheet" />
 </head>
 <body>
+
+    <!-- YENİ: AJAN POPUP VE SES DOSYASI -->
+    <!-- Kendi ses dosyanın ismini "ses.mp3" olarak değiştir veya alttaki kodu kendi dosya adına göre güncelle -->
+    <audio id="agentAudio" src="ses.mp3" preload="auto"></audio>
+    <div id="agentModal">
+        <div class="agent-content">
+            <button id="agentCloseBtn" class="modal-btn close-btn" onclick="closeAgentModal()">×</button>
+            <h2>>_ Sınıfta ajan varmış, Vaybe!!!</h2>
+        </div>
+    </div>
 
     <!-- YENİ: Mobilde Çıkacak Arama Butonu ve Siyah Arkaplan -->
     <div id="searchOverlay" onclick="toggleMobileSearch()"></div>
@@ -594,6 +611,19 @@
     </div>
 
     <script>
+        // --- YENİ: AJAN POPUP KONTROLÜ ---
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.getElementById('agentCloseBtn').style.display = 'block';
+            }, 5000);
+        });
+
+        function closeAgentModal() {
+            document.getElementById('agentModal').style.display = 'none';
+            const audio = document.getElementById('agentAudio');
+            audio.play().catch(e => console.log("Otomatik ses çalma engellendi: " + e));
+        }
+
         // --- MOBİL ARAMA POP-UP FONKSİYONU ---
         function toggleMobileSearch() {
             const searchPanel = document.querySelector('.search-panel');
