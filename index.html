@@ -200,6 +200,33 @@
             background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.1);
         }
 
+        /* --- BİLDİRİM (TOAST) CSS --- */
+        #toast {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--bg-dark);
+            color: var(--neon-green);
+            text-align: center;
+            border: 1px solid var(--neon-green);
+            border-radius: 5px;
+            padding: 16px;
+            position: fixed;
+            z-index: 10010;
+            right: 20px;
+            bottom: 20px;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(46, 204, 64, 0.3);
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+        /* Bildirim ekranda görünürken eklenecek class */
+        #toast.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 90px; /* Sağ alttaki arama butonunun tam üstünde çıkması için */
+        }
+
         /* --- MOBİL UYUMLULUK DÜZENLEMELERİ --- */
         @media (max-width: 900px) {
             .layout-wrapper { flex-direction: column; } 
@@ -228,7 +255,10 @@
 </head>
 <body>
 
-    <!-- MANIFEST POPUP VE  DOSYALARI -->
+    <!-- BİLDİRİM (TOAST) KUTUSU -->
+    <div id="toast">>_ BİLDİRİM EKRANI</div>
+
+    <!-- MANIFEST POPUP VE SES DOSYALARI -->
     <audio id="successAudio" src="ses.mp3" preload="auto"></audio>
     <audio id="failAudio" src="ses2.mp3" preload="auto"></audio>
 
@@ -623,26 +653,51 @@
     </div>
 
     <script>
+        // --- BİLDİRİM (TOAST) FONKSİYONU ---
+        function showToast(message, color) {
+            const toast = document.getElementById("toast");
+            toast.innerText = message;
+            toast.style.borderColor = color;
+            toast.style.color = color;
+            toast.style.boxShadow = `0 0 15px ${color}`;
+            
+            toast.classList.add("show");
+            
+            // 3 saniye sonra kaybolur
+            setTimeout(function() {
+                toast.classList.remove("show");
+            }, 3000);
+        }
+
         // --- MANIFEST POPUP KONTROLÜ ---
         function rightAnswer() {
+            // Manifest popup'ını kapat ve sistemi serbest bırak
             document.getElementById('manifestModal').style.display = 'none';
-            const audio = document.getElementById('successAudio');
-            audio.play().catch(e => console.log(e));
+            
+            // 1 saniyelik gecikme eklendi ki popup kapandıktan sonra ses ve bildirim çıksın
+            setTimeout(function() {
+                // Doğru sesini çal
+                const audio = document.getElementById('successAudio');
+                audio.play().catch(e => console.log(e));
+                
+                // Yeşil bildirim çıkar
+                showToast(">_ En iyi seçim", "var(--neon-green)");
+            }, 1000); 
         }
 
         function wrongAnswer() {
+            // Manifest popup'ını kapat ve sistemi serbest bırak
             document.getElementById('manifestModal').style.display = 'none';
-            const audio = document.getElementById('failAudio');
             
-            // Yanlış cevaba basılınca tüm siteyi ez ve kırmızı imha ekranına çevir
-            document.body.innerHTML = "<div style='display:flex; justify-content:center; align-items:center; height:100vh; background:#000; color:red; font-size:2em; font-family:Courier New, monospace; text-shadow:0 0 20px red; text-align:center; flex-direction:column; margin:0;'><h1>>_ YANLIŞ CEVAP</h1><p>SİSTEM İMHA EDİLDİ.</p></div>";
-
-            audio.play().catch(e => console.log(e));
-            
-            // Ses bittiğinde kişiyi boş, geri dönülemez sayfaya sürgün et
-            audio.onended = function() {
-                window.location.replace("about:blank");
-            };
+            // 1 saniyelik gecikme eklendi
+            setTimeout(function() {
+                // Yanlış (ceza) sesini çal
+                const audio = document.getElementById('failAudio');
+                audio.play().catch(e => console.log(e));
+                
+                // Kırmızı bildirim çıkar
+                showToast(">_ Yanlış tercihler olabilir", "#ff4747");
+            }, 1000);
         }
 
         // --- MOBİL ARAMA POP-UP FONKSİYONU ---
