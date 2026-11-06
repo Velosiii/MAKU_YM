@@ -178,7 +178,7 @@
             background: rgba(0,0,0,0.85); z-index: 10000; backdrop-filter: blur(5px);
         }
 
-        /* --- DÜZELTME: KURALLAR POPUP CSS --- */
+        /* --- KURALLAR POPUP CSS --- */
         #rulesModal {
             display: flex; position: fixed; z-index: 10005; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; backdrop-filter: blur(5px);
@@ -187,8 +187,8 @@
             background-color: var(--bg-dark); border: 2px dashed var(--neon-green);
             box-shadow: 0 0 40px rgba(46, 204, 64, 0.3); padding: 40px; text-align: left;
             position: relative; max-width: 90%; width: 600px;
-            z-index: 10006; /* İçeriği ve butonu cam katmanın üstüne çıkardık */
-            pointer-events: auto; /* Tıklanabilirliği garanti ettik */
+            z-index: 10006; 
+            pointer-events: auto; 
         }
         .rules-content h2 { text-align: center; border-bottom: 1px dashed var(--neon-green); padding-bottom: 15px; margin-top: 0;}
         .rules-list { list-style-type: none; padding-left: 0; margin-bottom: 30px; font-size: 1.1em; line-height: 1.6;}
@@ -236,7 +236,9 @@
 </head>
 <body>
 
-    <!-- YENİ: KURALLAR POPUP'I VE GERİ SAYIM BUTONU -->
+    <audio id="successAudio" src="ses.mp3" preload="auto"></audio>
+
+    <!-- KURALLAR POPUP'I VE GERİ SAYIM BUTONU -->
     <div id="rulesModal">
         <div class="rules-content">
             <h2>>_ Dur kardeşim geçme</h2>
@@ -262,9 +264,9 @@
             <div class="panel search-panel">
                 <input type="text" id="searchInput" class="search-box" placeholder=">_ KLASÖR ARA...">
             </div>
-            <!-- DÜZELTME: Z klasöründeki sağ panel resimlerinin kodu güncellendi -->
-            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/pet_1792844473531_p8_f0_s0_g1_a3_z12.jpg" alt=""></div></div>
-            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/pet_1793022808308_p0_f0_s0_g1_a3_z0.jpg" alt=""></div></div>
+            <!-- SOL REKLAM PANELLERİ (Z Klasörü) -->
+            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/1.png" alt=""></div></div>
+            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/2.jpeg" alt=""></div></div>
         </div>
 
         <div class="panel main-content">
@@ -638,8 +640,9 @@
 
         <div class="sidebar">
             <div class="panel"><div class="status-box">[ He He He ]</div></div>
-            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam3.jpg" alt=""></div></div>
-            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="reklam4.jpg" alt=""></div></div>
+            <!-- SAĞ REKLAM PANELLERİ (Z Klasörü) -->
+            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/pet_1792844473531_p8_f0_s0_g1_a3_z12.jpg" alt=""></div></div>
+            <div class="panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/pet_1793022808308_p0_f0_s0_g1_a3_z0.jpg" alt=""></div></div>
         </div>
     </div>
 
@@ -667,12 +670,12 @@
     </div>
 
     <script>
-        // --- YENİ: GERİ SAYIM VE KURALLAR POPUP'INI KAPATMA FONKSİYONU ---
+        // --- GERİ SAYIM VE KURALLAR POPUP'INI KAPATMA FONKSİYONU ---
         let timeLeft = 10;
         const acceptBtn = document.getElementById("acceptBtn");
         const rulesModal = document.getElementById("rulesModal");
+        const successAudio = document.getElementById("successAudio"); 
 
-        // Sayfa yüklendiğinde geri sayımı başlat
         const countdown = setInterval(function() {
             timeLeft--;
             if (timeLeft > 0) {
@@ -681,18 +684,21 @@
                 clearInterval(countdown);
                 acceptBtn.innerText = "[ ANLADIM, GEÇ ]";
                 acceptBtn.disabled = false;
-                acceptBtn.classList.add("active"); // Butonu yeşil ve tıklanabilir yap
+                acceptBtn.classList.add("active"); 
             }
-        }, 1000); // 1000ms = 1 saniye
+        }, 1000); 
 
         function closeRules() {
-            if (!acceptBtn.disabled) { // Sadece buton aktifse kapatmaya izin ver
+            if (!acceptBtn.disabled) { 
                 rulesModal.style.display = 'none';
-                document.body.style.overflow = 'auto'; // Kaydırmayı tekrar aç
+                document.body.style.overflow = 'auto'; 
+                
+                setTimeout(function() {
+                   successAudio.play().catch(e => console.log("Otomatik ses çalma engellendi: " + e));
+                }, 500); 
             }
         }
         
-        // Popup açıkken arka planda sayfanın kaydırılmasını engelle
         if (rulesModal.style.display !== 'none') {
             document.body.style.overflow = 'hidden';
         }
