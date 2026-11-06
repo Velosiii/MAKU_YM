@@ -178,54 +178,34 @@
             background: rgba(0,0,0,0.85); z-index: 10000; backdrop-filter: blur(5px);
         }
 
-        /* --- MANIFEST POPUP CSS --- */
-        #manifestModal {
+        /* --- DÜZELTME: KURALLAR POPUP CSS --- */
+        #rulesModal {
             display: flex; position: fixed; z-index: 10005; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.95); align-items: center; justify-content: center; backdrop-filter: blur(5px);
         }
-        .manifest-content {
+        .rules-content {
             background-color: var(--bg-dark); border: 2px dashed var(--neon-green);
-            box-shadow: 0 0 40px rgba(46, 204, 64, 0.3); padding: 40px; text-align: center;
-            position: relative; max-width: 90%;
+            box-shadow: 0 0 40px rgba(46, 204, 64, 0.3); padding: 40px; text-align: left;
+            position: relative; max-width: 90%; width: 600px;
+            z-index: 10006; /* İçeriği ve butonu cam katmanın üstüne çıkardık */
+            pointer-events: auto; /* Tıklanabilirliği garanti ettik */
         }
-        .manifest-buttons {
-            display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px;
+        .rules-content h2 { text-align: center; border-bottom: 1px dashed var(--neon-green); padding-bottom: 15px; margin-top: 0;}
+        .rules-list { list-style-type: none; padding-left: 0; margin-bottom: 30px; font-size: 1.1em; line-height: 1.6;}
+        .rules-list li { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px; }
+        .rules-list li::before { content: ">_"; color: var(--neon-green); font-weight: bold; }
+        
+        .accept-btn {
+            display: block; width: 100%; background: #222; color: #555;
+            border: 1px solid #555; padding: 12px; font-family: 'Courier New', Courier, monospace; 
+            font-size: 1.2em; font-weight: bold; cursor: not-allowed; transition: 0.3s; border-radius: 5px;
+            text-align: center; position: relative; z-index: 10007;
         }
-        .manifest-buttons button {
-            background: #000; color: var(--neon-green); border: 1px solid var(--neon-green);
-            padding: 10px 20px; font-family: 'Courier New', Courier, monospace; font-size: 1.1em;
-            font-weight: bold; cursor: pointer; transition: 0.3s; border-radius: 5px;
+        .accept-btn.active {
+            background: #000; color: var(--neon-green); 
+            border-color: var(--neon-green); cursor: pointer;
         }
-        .manifest-buttons button:hover {
-            background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); transform: scale(1.1);
-        }
-
-        /* --- BİLDİRİM (TOAST) CSS --- */
-        #toast {
-            visibility: hidden;
-            min-width: 250px;
-            background-color: var(--bg-dark);
-            color: var(--neon-green);
-            text-align: center;
-            border: 1px solid var(--neon-green);
-            border-radius: 5px;
-            padding: 16px;
-            position: fixed;
-            z-index: 10010;
-            right: 20px;
-            bottom: 20px;
-            font-family: 'Courier New', Courier, monospace;
-            font-weight: bold;
-            box-shadow: 0 0 15px rgba(46, 204, 64, 0.3);
-            opacity: 0;
-            transition: opacity 0.5s, bottom 0.5s;
-        }
-        /* Bildirim ekranda görünürken eklenecek class */
-        #toast.show {
-            visibility: visible;
-            opacity: 1;
-            bottom: 90px; /* Sağ alttaki arama butonunun tam üstünde çıkması için */
-        }
+        .accept-btn.active:hover { background: var(--neon-green); color: #000; box-shadow: 0 0 15px var(--neon-green); }
 
         /* --- MOBİL UYUMLULUK DÜZENLEMELERİ --- */
         @media (max-width: 900px) {
@@ -249,30 +229,27 @@
             #docModal iframe { width: 95%; height: 85%; margin-top: 60px; }
             .text-container { width: 90%; height: 80%; margin-top: 60px; padding-top: 50px; }
             #lightbox img { margin-top: 60px; }
+            .rules-content { padding: 20px; font-size: 0.9em; }
         }
     </style>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-twilight.min.css" rel="stylesheet" />
 </head>
 <body>
 
-    <!-- BİLDİRİM (TOAST) KUTUSU -->
-    <div id="toast">>_ BİLDİRİM EKRANI</div>
-
-    <!-- MANIFEST POPUP VE SES DOSYALARI -->
-    <audio id="successAudio" src="ses.mp3" preload="auto"></audio>
-    <audio id="failAudio" src="ses2.mp3" preload="auto"></audio>
-
-    <div id="manifestModal">
-        <div class="manifest-content">
-            <h2>>_ En iyi manifest üyesi kim?</h2>
-            <div class="manifest-buttons">
-                <button onclick="wrongAnswer()">Hilal</button>
-                <button onclick="wrongAnswer()">Esin</button>
-                <button onclick="wrongAnswer()">Mina</button>
-                <button onclick="rightAnswer()">Zoktay</button>
-                <button onclick="wrongAnswer()">Sueda</button>
-                <button onclick="wrongAnswer()">Lidya</button>
-            </div>
+    <!-- YENİ: KURALLAR POPUP'I VE GERİ SAYIM BUTONU -->
+    <div id="rulesModal">
+        <div class="rules-content">
+            <h2>>_ Dur kardeşim geçme</h2>
+            <ul class="rules-list">
+                <li>Burası arşiv sitesi atılan herşey burada.</li>
+                <li>Lütfen bir daha Wp'de "yok bu slayt nerde, Şunu bi atarmısınız" demeyin.</li>
+                <li>Zaten grubun içerisine baksan bulucan.</li>
+                <li>5 msj yukarıda hali hazırda sorulan soruları sorana bişi demiyorum zaten (Doktor kendi haline bırakın dedi).</li>
+                <li>Notlar nerde diyelere bana vahi ile inmiyor gruba ne atılırsa o.</li>
+                <li>Çan var bide bizde çıkıcak soruyu atarız ama gerekli notu atmayız 🪳</li>
+                <li>Arşivi sürekli apaylaştığından dolayı sizler adına özel teşekürler Seyfullah &lt;3</li>
+            </ul>
+            <button id="acceptBtn" class="accept-btn" disabled onclick="closeRules()">[ OKUMAN İÇİN BEKLENİYOR... 10 ]</button>
         </div>
     </div>
 
@@ -285,8 +262,9 @@
             <div class="panel search-panel">
                 <input type="text" id="searchInput" class="search-box" placeholder=">_ KLASÖR ARA...">
             </div>
-            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/1.png" alt=""></div></div>
-            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/2.jpeg" alt=""></div></div>
+            <!-- DÜZELTME: Z klasöründeki sağ panel resimlerinin kodu güncellendi -->
+            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/pet_1792844473531_p8_f0_s0_g1_a3_z12.jpg" alt=""></div></div>
+            <div class="panel ad-panel" style="padding: 10px;"><div class="ad-slot"><img src="Z/pet_1793022808308_p0_f0_s0_g1_a3_z0.jpg" alt=""></div></div>
         </div>
 
         <div class="panel main-content">
@@ -689,51 +667,34 @@
     </div>
 
     <script>
-        // --- BİLDİRİM (TOAST) FONKSİYONU ---
-        function showToast(message, color) {
-            const toast = document.getElementById("toast");
-            toast.innerText = message;
-            toast.style.borderColor = color;
-            toast.style.color = color;
-            toast.style.boxShadow = `0 0 15px ${color}`;
-            
-            toast.classList.add("show");
-            
-            // 3 saniye sonra kaybolur
-            setTimeout(function() {
-                toast.classList.remove("show");
-            }, 3000);
-        }
+        // --- YENİ: GERİ SAYIM VE KURALLAR POPUP'INI KAPATMA FONKSİYONU ---
+        let timeLeft = 10;
+        const acceptBtn = document.getElementById("acceptBtn");
+        const rulesModal = document.getElementById("rulesModal");
 
-        // --- MANIFEST POPUP KONTROLÜ ---
-        function rightAnswer() {
-            // Manifest popup'ını kapat ve sistemi serbest bırak
-            document.getElementById('manifestModal').style.display = 'none';
-            
-            // 1 saniyelik gecikme eklendi ki popup kapandıktan sonra ses ve bildirim çıksın
-            setTimeout(function() {
-                // Doğru sesini çal
-                const audio = document.getElementById('successAudio');
-                audio.play().catch(e => console.log(e));
-                
-                // Yeşil bildirim çıkar
-                showToast(">_ En iyi seçim", "var(--neon-green)");
-            }, 1000); 
-        }
+        // Sayfa yüklendiğinde geri sayımı başlat
+        const countdown = setInterval(function() {
+            timeLeft--;
+            if (timeLeft > 0) {
+                acceptBtn.innerText = `[ OKUMAN İÇİN BEKLENİYOR... ${timeLeft} ]`;
+            } else {
+                clearInterval(countdown);
+                acceptBtn.innerText = "[ ANLADIM, GEÇ ]";
+                acceptBtn.disabled = false;
+                acceptBtn.classList.add("active"); // Butonu yeşil ve tıklanabilir yap
+            }
+        }, 1000); // 1000ms = 1 saniye
 
-        function wrongAnswer() {
-            // Manifest popup'ını kapat ve sistemi serbest bırak
-            document.getElementById('manifestModal').style.display = 'none';
-            
-            // 1 saniyelik gecikme eklendi
-            setTimeout(function() {
-                // Yanlış (ceza) sesini çal
-                const audio = document.getElementById('failAudio');
-                audio.play().catch(e => console.log(e));
-                
-                // Kırmızı bildirim çıkar
-                showToast(">_ Yanlış tercihler olabilir", "#ff4747");
-            }, 1000);
+        function closeRules() {
+            if (!acceptBtn.disabled) { // Sadece buton aktifse kapatmaya izin ver
+                rulesModal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Kaydırmayı tekrar aç
+            }
+        }
+        
+        // Popup açıkken arka planda sayfanın kaydırılmasını engelle
+        if (rulesModal.style.display !== 'none') {
+            document.body.style.overflow = 'hidden';
         }
 
         // --- MOBİL ARAMA POP-UP FONKSİYONU ---
